@@ -1,9 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Header } from "../components/home/Header"
+import SearchArea from "../components/home/SearchArea.astro";
+
 export const prerender = true;
 ---
 
 <Layout title="Welcome to Astro.">
   <Header client:only='react' />
+  <SearchArea />
 </Layout>

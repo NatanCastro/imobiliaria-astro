@@ -13,7 +13,8 @@ interface ICheckbox {
 }
 
 export const Checkbox = (props: ICheckbox) => {
-  const { value, registerName, required, checked, registerFn, addItem, removeItem } = props
+  const { value, registerName, required, checked, registerFn, addItem, removeItem } =
+    props
   const { onChange, ...registerProps } = registerFn(registerName)
 
   const id = useId()
@@ -32,6 +33,7 @@ export const Checkbox = (props: ICheckbox) => {
       <input
         id={id}
         type='checkbox'
+        className='rounded text-darkBlue focus:ring-darkBlue'
         value={value}
         required={required}
         defaultChecked={checked}

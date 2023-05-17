@@ -8,7 +8,7 @@ export const Modal = ({ isShow, showFunc }: IModal) => {
 
   return (
     <div
-      className={`modal absolute inset-0 bg-gray-100 ${hideShowTag} z-50 transition-opacity`}>
+      className={`modal fixed inset-0 bg-gray-100 ${hideShowTag} z-50 transition-opacity`}>
       <aside className='relative flex h-full flex-col  justify-end bg-gray-300 p-4'>
         <h3 className='text mb-6 text-2xl font-bold text-darkBlue'>
           Lorem ipsum dolor sit.

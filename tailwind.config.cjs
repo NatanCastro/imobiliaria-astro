@@ -5,6 +5,10 @@ module.exports = {
     extend: {
       colors: {
         darkBlue: '#1E3C5C'
+      },
+      fontFamily: {
+        sans: "'Roboto', sans-serif",
+        poppins: "'Poppins', sans-serif"
       }
     }
   },

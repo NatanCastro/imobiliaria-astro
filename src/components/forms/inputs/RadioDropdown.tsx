@@ -14,16 +14,25 @@ interface IDropdownProps {
 
 export const RadioDropdown = (props: IDropdownProps) => {
   const [selected, setSelected] = useState<string>('')
-  const { displayText, required = false, defaultOpt = false, options, name, registerFn } = props
+  const {
+    displayText,
+    required = false,
+    defaultOpt = false,
+    options,
+    name,
+    registerFn
+  } = props
 
   const updateSelection: ChangeEventHandler<HTMLInputElement> = (event) => {
     setSelected(event.target.value)
   }
 
   return (
-    <div className='group relative cursor-pointer rounded bg-gray-100' tabIndex={0}>
+    <div
+      className='group relative cursor-pointer rounded bg-gray-100 flex-grow'
+      tabIndex={0}>
       <input
-        className='w-full rounded bg-white px-3 py-2'
+        className='w-full rounded bg-white px-3 py-2 min-w-full'
         placeholder={displayText}
         value={selected}
         type='text'

@@ -21,7 +21,14 @@ export const CheckboxDropdown = (props: IDropdownProps) => {
   const [selected, setSelected] = useState<ISelected[]>([])
   const [value, setValue] = useState<string>('')
 
-  const { displayText, required = false, defaultOpt = false, options, name, registerFn } = props
+  const {
+    displayText,
+    required = false,
+    defaultOpt = false,
+    options,
+    name,
+    registerFn
+  } = props
 
   const addSelected: ChangeEventHandler<HTMLInputElement> = (event) => {
     setSelected((prev) => [...prev, { id: event.target.id, value: event.target.value }])
@@ -39,9 +46,11 @@ export const CheckboxDropdown = (props: IDropdownProps) => {
   useEffect(updateValue, [updateValue, selected])
 
   return (
-    <div className='group relative cursor-pointer rounded bg-gray-100' tabIndex={0}>
+    <div
+      className='group relative cursor-pointer rounded bg-gray-100 flex-grow'
+      tabIndex={0}>
       <input
-        className='w-full rounded bg-white px-3 py-2'
+        className='w-full rounded bg-white px-3 py-2 min-w-full'
         placeholder={displayText}
         value={value}
         type='text'

@@ -21,10 +21,20 @@ export const SearchForm = () => {
   const onSubmit: SubmitHandler<FormData> = (data) => console.log(data)
   return (
     <form
-      className='grid grid-cols-2 place-items-center gap-3 rounded-md bg-gray-100 p-2'
+      className='grid grid-cols-2 place-items-center gap-3 rounded-md bg-gray-100 p-2 max-md:flex max-md:flex-wrap max-md:flex-grow max-md:mx-2'
       onSubmit={handleSubmit(onSubmit)}>
-      <CheckboxDropdown displayText='comprar ou vender' options={tipoCasas} name='action' registerFn={register} />
-      <RadioDropdown displayText='comprar ou vender' options={tipoCasas} name='action2' registerFn={register} />
+      <CheckboxDropdown
+        displayText='comprar ou vender'
+        options={tipoCasas}
+        name='action'
+        registerFn={register}
+      />
+      <RadioDropdown
+        displayText='comprar ou vender'
+        options={tipoCasas}
+        name='action2'
+        registerFn={register}
+      />
       <input
         type='submit'
         value='enviar'

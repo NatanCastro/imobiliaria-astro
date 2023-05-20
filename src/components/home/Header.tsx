@@ -9,22 +9,19 @@ export const Header = () => {
   }
 
   return (
-    <header className='flex w-full flex-row items-center justify-between bg-gray-100 px-7 py-3 text-xl'>
+    <header className='flex w-full flex-row items-center justify-between bg-gray-100 px-7 py-3 text-xl max-sm:px-3'>
       <h1 className='text-3xl'>LOGO</h1>
-      <div className='flex items-center gap-14'>
-        <ul className='flex items-center gap-4 text-2xl max-md:hidden'>
+      <div className='flex items-center gap-14 max-sm:gap-6'>
+        <ul className='flex items-center gap-4 text-xl max-md:hidden'>
           <a className='flex gap-4' href='https://wa.me/+0000000000000' target='_blank'>
-            <img
-              className=''
-              src='whatsapp.svg'
-              alt='whatsapp logo'
-              width={24}
-              height={24}
-            />
+            <img src='whatsapp.svg' alt='whatsapp logo' width={24} height={24} />
             (00) 00000-0000
           </a>
-          <a className='flex gap-4' href='tel:000000000000' target='_blank'>
-            <img className='' src='phone.svg' alt='telefone' width={24} height={24} />
+          <a
+            className='flex gap-4 max-[769px]:hidden'
+            href='tel:000000000000'
+            target='_blank'>
+            <img src='phone.svg' alt='telefone' width={24} height={24} />
             (00) 00000-0000
           </a>
         </ul>

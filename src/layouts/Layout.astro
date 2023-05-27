@@ -68,4 +68,8 @@ const { title } = Astro.props as Props;
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
       DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   }
+
+  .resGrid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
 </style>

@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        darkBlue: '#1E3C5C'
+        darkBlue: '#1E3C5C',
+        gold: '#E6AC00'
       },
       fontFamily: {
         sans: "'Roboto', sans-serif",

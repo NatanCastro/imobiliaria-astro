@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { Header } from "../components/home/Header"
 import SearchArea from "../components/home/SearchArea.astro";
+import { FeaturedHouses } from "../components/home/FeaturedHouses";
 
 export const prerender = true;
 ---
@@ -9,4 +10,5 @@ export const prerender = true;
 <Layout title="Imobiliaria Astro">
   <Header client:only='react' />
   <SearchArea />
+  <FeaturedHouses client:only='react' />
 </Layout>

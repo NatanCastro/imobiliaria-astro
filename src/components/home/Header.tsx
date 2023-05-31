@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Modal } from './Modal'
+import { FaWhatsapp, FaPhone, Fa } from 'react-icons/fa'
 
 export const Header = () => {
   const [modal, setModal] = useState(false)
@@ -13,15 +14,18 @@ export const Header = () => {
       <h1 className='text-3xl'>LOGO</h1>
       <div className='flex items-center gap-14 max-sm:gap-6'>
         <ul className='flex items-center gap-4 text-xl max-md:hidden'>
-          <a className='flex gap-4' href='https://wa.me/+0000000000000' target='_blank'>
-            <img src='whatsapp.svg' alt='whatsapp logo' width={24} height={24} />
+          <a
+            className='flex gap-4 items-center'
+            href='https://wa.me/+0000000000000'
+            target='_blank'>
+            <FaWhatsapp width={24} height={24} />
             (00) 00000-0000
           </a>
           <a
-            className='flex gap-4 max-[769px]:hidden'
+            className='flex gap-4 items-center max-[769px]:hidden'
             href='tel:000000000000'
             target='_blank'>
-            <img src='phone.svg' alt='telefone' width={24} height={24} />
+            <FaPhone width={24} height={24} />
             (00) 00000-0000
           </a>
         </ul>

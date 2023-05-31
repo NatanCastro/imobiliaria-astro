@@ -30,7 +30,7 @@ const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
 
 export const HouseCard = ({ url, title, price, properties }: House) => {
   return (
-    <div className='max-w-[16rem] bg-gray-200 rounded-md shadow-black/50 shadow-md'>
+    <div className='max-w-[18rem] bg-gray-200 rounded-md shadow-black/50 shadow-md'>
       <img className='w-full rounded-t-md' src={url} alt={title} />
       <div className='px-2 my-2'>
         <h3 className='font-poppins text-xl'>{title}</h3>

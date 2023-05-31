@@ -1,3 +1,6 @@
+import { FaFacebook, FaInstagram, FaPhone, FaWhatsapp } from 'react-icons/fa'
+import { IoClose } from 'react-icons/io5'
+
 interface IModal {
   isShow: boolean
   showFunc: () => void
@@ -14,32 +17,26 @@ export const Modal = ({ isShow, showFunc }: IModal) => {
           Lorem ipsum dolor sit.
         </h3>
         <div className='mb-4 text-lg font-extralight'>
-          <a className='flex gap-4' href='tel:000000000000'>
-            <img className='' src='phone.svg' alt='telefone' width={16} height={16} />
+          <a className='flex gap-4 items-center' href='tel:000000000000'>
+            <FaPhone width={16} height={16} />
             (00) 00000-0000
           </a>
-          <a className='flex gap-4' href='https://wa.me/+0000000000000'>
-            <img
-              className=''
-              src='whatsapp.svg'
-              alt='whatsapp logo'
-              width={16}
-              height={16}
-            />
+          <a className='flex gap-4 items-center' href='https://wa.me/+0000000000000'>
+            <FaWhatsapp width={16} height={16} />
             Whatsapp (00) 00000-0000
           </a>
         </div>
         <div className='flex gap-10'>
           <a href='https://facebook.com' target='_blank'>
-            <img src='facebook.svg' alt='facebook logo' width={36} height={36} />
+            <FaFacebook width={36} height={36} />
           </a>
           <a href=''>
-            <img src='instagram.svg' alt='instagram logo' width={36} height={36} />
+            <FaInstagram width={36} height={36} />
           </a>
         </div>
       </aside>
-      <button className='absolute right-6 top-4' onClick={showFunc}>
-        <img src='/close.svg' alt='fechar menu' width={48} height={48} />
+      <button className='absolute right-6 top-4 w-12 h-12' onClick={showFunc}>
+        <IoClose width={48} height={48} />
       </button>
     </div>
   )

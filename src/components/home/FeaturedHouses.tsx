@@ -75,7 +75,7 @@ export const FeaturedHouses = () => {
   }, [])
 
   return (
-    <>
+    <div className='my-8'>
       <h2 className='text-2xl text-center mb-8 font-poppins'>Casas em alta</h2>
       <div className='flex flex-wrap justify-center gap-4'>
         {houses.map(({ url, title, price, properties }, index) => {
@@ -90,6 +90,6 @@ export const FeaturedHouses = () => {
           )
         })}
       </div>
-    </>
+    </div>
   )
 }

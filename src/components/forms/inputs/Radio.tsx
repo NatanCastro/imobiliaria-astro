@@ -27,7 +27,7 @@ export const Radio = (props: IRadio) => {
       <input
         id={id}
         type='radio'
-        className='text-darkBlue focus:ring-darkBlue'
+        className='text-dark-blue focus:ring-dark-blue'
         value={value}
         required={required}
         defaultChecked={defaultChecked}

@@ -1,0 +1,52 @@
+---
+import { IoLocationSharp } from 'react-icons/io5'
+import { GrMail } from 'react-icons/gr'
+import { FaFacebookSquare, FaInstagramSquare, FaPhone } from 'react-icons/fa'
+---
+
+<div class='bg-dark-blue text-white flex items-start justify-evenly p-8 gap-x-4'>
+  <div class='flex flex-col flex-grow border-r border-white'>
+    <div class='mx-auto'>
+      <i>LOGO</i>
+      <hr class='my-2 w-24' />
+      <p class='flex items-center gap-2 font-light text-md'>
+        <IoLocationSharp className='text-gold-700 text-xl' /> Rua tal, 0000 - bairo <br /> CEP
+        00000-000 Cidade-SP
+      </p>
+    </div>
+  </div>
+  <div class='flex flex-col flex-grow'>
+    <div class='mx-auto'>
+      <h4 class='text-xl font-bold'>Contato</h4>
+      <hr class='my-2 w-24' />
+      <p class='flex items-center gap-2'>
+        <GrMail className='text-gold-700 text-xl' />
+        <a href='mailto:email@email.com'>mail@email.com</a>
+      </p>
+      <p class='flex items-center gap-2'>
+        <FaPhone className='text-gold-700 text-xl' />
+        <a href='tel:00000000'>(00) 00000-0000</a>
+        <a href='https://api.whatsapp.com/send?phone=00000000000&text='>
+          (00) 00000-0000
+        </a>
+      </p>
+
+      <h4 class='text-xl mt-4 font-bold'>Redes socias</h4>
+      <hr class='my-2 w-24' />
+      <ul>
+        <li>
+          <a href='https://www.instagram.com' class='flex items-center gap-x-2'>
+            <FaInstagramSquare className='text-gold-700 text-xl' />
+            instagram
+          </a>
+        </li>
+        <li>
+          <a href='https://www.facebook.com' class='flex items-center gap-x-2'>
+            <FaFacebookSquare className='text-gold-700 text-xl' />
+            facebook
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

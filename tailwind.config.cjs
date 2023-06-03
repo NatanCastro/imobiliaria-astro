@@ -4,8 +4,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        darkBlue: '#1E3C5C',
-        gold: '#E6AC00'
+        'dark-blue': '#1E3C5C',
+        'anti-flash-white': 'f0f0f0',
+        silver: 'c0c0c0',
+        gold: {
+          700: '#ffd700',
+          900: '#ffbf00'
+        }
       },
       fontFamily: {
         sans: "'Roboto', sans-serif",
@@ -13,5 +18,5 @@ module.exports = {
       }
     }
   },
-  plugins: [require('@tailwindcss/forms')]
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')]
 }

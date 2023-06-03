@@ -33,7 +33,7 @@ export const Checkbox = (props: ICheckbox) => {
       <input
         id={id}
         type='checkbox'
-        className='rounded text-darkBlue focus:ring-darkBlue'
+        className='rounded text-dark-blue focus:ring-dark-blue'
         value={value}
         required={required}
         defaultChecked={checked}

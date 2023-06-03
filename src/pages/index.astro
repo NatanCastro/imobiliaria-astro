@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { Header } from "../components/home/Header"
 import SearchArea from "../components/home/SearchArea.astro";
 import { FeaturedHouses } from "../components/home/FeaturedHouses";
+import Footer from "../components/Footer.astro";
 
 export const prerender = true;
 ---
@@ -11,4 +12,5 @@ export const prerender = true;
   <Header client:only='react' />
   <SearchArea />
   <FeaturedHouses client:only='react' />
+  <Footer />
 </Layout>

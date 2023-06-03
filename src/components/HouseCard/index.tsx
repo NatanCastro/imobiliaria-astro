@@ -34,7 +34,7 @@ export const HouseCard = ({ url, title, price, properties }: House) => {
       <img className='w-full rounded-t-md' src={url} alt={title} />
       <div className='px-2 my-2'>
         <h3 className='font-poppins text-xl'>{title}</h3>
-        <p className='text-gold font-semibold font-poppins capitalize text-md'>
+        <p className='text-gold-900 font-semibold font-poppins capitalize text-md'>
           {price.value} / <span className='text-sm'>{price.type}</span>
         </p>
         <div className='flex gap-x-4 items-center'>
@@ -42,7 +42,7 @@ export const HouseCard = ({ url, title, price, properties }: House) => {
         </div>
       </div>
       <a
-        className='w-full flex justify-center items-center py-2 bg-darkBlue text-white rounded-b-md'
+        className='w-full flex justify-center items-center py-2 text-white bg-dark-blue rounded-b-md'
         href=''>
         mais informações
       </a>

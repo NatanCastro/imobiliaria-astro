@@ -38,7 +38,7 @@ export const SearchForm = () => {
       <input
         type='submit'
         value='enviar'
-        className='h-auto w-full cursor-pointer rounded bg-darkBlue py-2 text-white'
+        className='h-auto w-full cursor-pointer rounded bg-dark-blue py-2 text-white'
       />
     </form>
   )

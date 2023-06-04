@@ -3,8 +3,8 @@ import { Mail, Instagram, Facebook, LocationOn, Phone } from '@mui/icons-materia
 
 ---
 
-<div class='bg-dark-blue text-white flex items-start justify-evenly p-8 gap-x-4'>
-  <div class='flex flex-col flex-grow border-r border-white'>
+<div class='bg-dark-blue text-white flex flex-col items-start justify-evenly p-8 gap-4 md:flex-row'>
+  <div class='flex flex-col flex-grow md:border-r md:border-white'>
     <div class='mx-auto'>
       <i>LOGO</i>
       <hr class='my-2 w-24' />
@@ -19,9 +19,7 @@ import { Mail, Instagram, Facebook, LocationOn, Phone } from '@mui/icons-materia
       <h4 class='text-xl font-bold'>Contato</h4>
       <hr class='my-2 w-24' />
       <p class='flex items-center gap-2'>
-        <>
-          <Mail className='text-gold-700 text-xl' />
-        </>
+        <Mail className='text-gold-700 text-xl' />
         <a href='mailto:email@email.com'>mail@email.com</a>
       </p>
       <p class='flex items-center gap-2'>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Modal } from './Modal'
-import { FaWhatsapp, FaPhone } from 'react-icons/fa'
-import { FiMenu } from 'react-icons/fi'
+import { Menu } from '@mui/icons-material'
+import { Phone, WhatsApp } from '@mui/icons-material'
 
 export const Header = () => {
   const [modal, setModal] = useState(false)
@@ -19,14 +19,14 @@ export const Header = () => {
             className='flex gap-4 items-center'
             href='https://wa.me/+0000000000000'
             target='_blank'>
-            <FaWhatsapp className='text-2xl' />
+            <WhatsApp className='text-2xl' />
             (00) 00000-0000
           </a>
           <a
             className='flex gap-4 items-center max-[769px]:hidden'
             href='tel:000000000000'
             target='_blank'>
-            <FaPhone className='text-2xl' />
+            <Phone className='text-2xl' />
             (00) 00000-0000
           </a>
         </ul>
@@ -37,7 +37,7 @@ export const Header = () => {
           entrar
         </a>
         <button onClick={toggleModal}>
-          <FiMenu className='text-5xl text-dark-blue' />
+          <Menu className='text-8xl text-dark-blue' />
         </button>
       </div>
       <Modal isShow={modal} showFunc={toggleModal} />

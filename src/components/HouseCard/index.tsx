@@ -1,5 +1,5 @@
 import type { House, HouseProperty, PropertyDescription } from './types'
-import { FaBath, FaBed, FaRulerCombined, FaShower } from 'react-icons/fa'
+import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
 
 const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
   let baseLabel: string
@@ -8,13 +8,13 @@ const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
     switch (propertyDesc) {
       case 'area':
         baseLabel = 'metros quadrados'
-        return <FaRulerCombined />
+        return <SquareFoot />
       case 'quartos':
         baseLabel = 'quartos'
-        return <FaBed />
+        return <Bed />
       case 'banheiros':
         baseLabel = 'banheiros'
-        return <FaBath />
+        return <Bathtub />
     }
   }
 
@@ -37,7 +37,7 @@ export const HouseCard = ({ url, title, price, properties }: House) => {
         <p className='text-gold-900 font-semibold font-poppins capitalize text-md'>
           {price.value} / <span className='text-sm'>{price.type}</span>
         </p>
-        <div className='flex gap-x-4 items-center'>
+        <div className='flex gap-x-4 items-center my-2'>
           <HouseProperties properties={properties} />
         </div>
       </div>

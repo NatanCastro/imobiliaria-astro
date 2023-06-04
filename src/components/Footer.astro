@@ -1,7 +1,6 @@
 ---
-import { IoLocationSharp } from 'react-icons/io5'
-import { GrMail } from 'react-icons/gr'
-import { FaFacebook, FaInstagram, FaPhone } from 'react-icons/fa'
+import { Mail, Instagram, Facebook, LocationOn, Phone } from '@mui/icons-material'
+
 ---
 
 <div class='bg-dark-blue text-white flex items-start justify-evenly p-8 gap-x-4'>
@@ -10,7 +9,7 @@ import { FaFacebook, FaInstagram, FaPhone } from 'react-icons/fa'
       <i>LOGO</i>
       <hr class='my-2 w-24' />
       <p class='flex items-center gap-2 font-light text-md'>
-        <IoLocationSharp className='text-gold-700 text-xl' /> Rua tal, 0000 - bairo <br /> CEP
+        <LocationOn className='text-gold-700 text-xl' /> Rua tal, 0000 - bairo <br /> CEP
         00000-000 Cidade-SP
       </p>
     </div>
@@ -20,11 +19,13 @@ import { FaFacebook, FaInstagram, FaPhone } from 'react-icons/fa'
       <h4 class='text-xl font-bold'>Contato</h4>
       <hr class='my-2 w-24' />
       <p class='flex items-center gap-2'>
-        <GrMail className='text-gold-700 text-xl' />
+        <>
+          <Mail className='text-gold-700 text-xl' />
+        </>
         <a href='mailto:email@email.com'>mail@email.com</a>
       </p>
       <p class='flex items-center gap-2'>
-        <FaPhone className='text-gold-700 text-xl' />
+        <Phone className='text-gold-700 text-xl' />
         <a href='tel:00000000'>(00) 00000-0000</a>
         <a href='https://api.whatsapp.com/send?phone=00000000000&text='>
           (00) 00000-0000
@@ -36,13 +37,13 @@ import { FaFacebook, FaInstagram, FaPhone } from 'react-icons/fa'
       <ul>
         <li>
           <a href='https://www.instagram.com' class='flex items-center gap-x-2'>
-            <FaInstagram className='text-gold-700 text-xl' />
+            <Instagram className='text-gold-700 text-xl' />
             instagram
           </a>
         </li>
         <li>
           <a href='https://www.facebook.com' class='flex items-center gap-x-2'>
-            <FaFacebook className='text-gold-700 text-xl' />
+            <Facebook className='text-gold-700 text-xl' />
             facebook
           </a>
         </li>

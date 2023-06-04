@@ -1,5 +1,4 @@
-import { FaFacebook, FaInstagram, FaPhone, FaWhatsapp } from 'react-icons/fa'
-import { IoClose } from 'react-icons/io5'
+import { Facebook, Instagram, Phone, WhatsApp, Close } from '@mui/icons-material'
 
 interface IModal {
   isShow: boolean
@@ -18,25 +17,25 @@ export const Modal = ({ isShow, showFunc }: IModal) => {
         </h3>
         <div className='mb-4 text-lg font-extralight'>
           <a className='flex gap-4 items-center' href='tel:000000000000'>
-            <FaPhone className='text-xl text-dark-blue' />
+            <Phone className='text-xl text-dark-blue' />
             (00) 00000-0000
           </a>
           <a className='flex gap-4 items-center' href='https://wa.me/+0000000000000'>
-            <FaWhatsapp className='text-xl text-dark-blue' />
+            <WhatsApp className='text-xl text-dark-blue' />
             Whatsapp (00) 00000-0000
           </a>
         </div>
         <div className='flex gap-10'>
           <a href='https://facebook.com' target='_blank'>
-            <FaFacebook className='text-2xl text-dark-blue' />
+            <Facebook className='text-2xl text-dark-blue' />
           </a>
           <a href=''>
-            <FaInstagram className='text-2xl text-dark-blue' />
+            <Instagram className='text-2xl text-dark-blue' />
           </a>
         </div>
       </aside>
       <button className='absolute right-6 top-4 w-12 h-12' onClick={showFunc}>
-        <IoClose className='text-4xl text-dark-blue' />
+        <Close className='text-4xl text-dark-blue' />
       </button>
     </div>
   )

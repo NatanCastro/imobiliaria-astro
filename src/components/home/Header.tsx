@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Modal } from './Modal'
+import { FaWhatsapp, FaPhone } from 'react-icons/fa'
+import { FiMenu } from 'react-icons/fi'
 
 export const Header = () => {
   const [modal, setModal] = useState(false)
@@ -13,26 +15,29 @@ export const Header = () => {
       <h1 className='text-3xl'>LOGO</h1>
       <div className='flex items-center gap-14 max-sm:gap-6'>
         <ul className='flex items-center gap-4 text-xl max-md:hidden'>
-          <a className='flex gap-4' href='https://wa.me/+0000000000000' target='_blank'>
-            <img src='whatsapp.svg' alt='whatsapp logo' width={24} height={24} />
+          <a
+            className='flex gap-4 items-center'
+            href='https://wa.me/+0000000000000'
+            target='_blank'>
+            <FaWhatsapp className='text-2xl' />
             (00) 00000-0000
           </a>
           <a
-            className='flex gap-4 max-[769px]:hidden'
+            className='flex gap-4 items-center max-[769px]:hidden'
             href='tel:000000000000'
             target='_blank'>
-            <img src='phone.svg' alt='telefone' width={24} height={24} />
+            <FaPhone className='text-2xl' />
             (00) 00000-0000
           </a>
         </ul>
         <a
-          className='rounded-xl border-[3px] border-darkBlue px-3 py-2 capitalize transition
-          hover:bg-darkBlue hover:text-white'
+          className='rounded-xl border-[3px] border-dark-blue px-3 py-2 capitalize transition
+          hover:bg-dark-blue hover:text-white'
           href='/'>
           entrar
         </a>
         <button onClick={toggleModal}>
-          <img src='menu.svg' alt='abrir menu' width={48} height={48} />
+          <FiMenu className='text-5xl text-dark-blue' />
         </button>
       </div>
       <Modal isShow={modal} showFunc={toggleModal} />

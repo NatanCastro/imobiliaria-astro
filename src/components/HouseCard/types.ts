@@ -1,17 +1,22 @@
 export type PropertyDescription = 'area' | 'quartos' | 'banheiros'
-export interface HouseProperty {
+export type HouseProperty = {
   description: PropertyDescription
-  value: string
+  value: number
 }
 
-export interface HousePrice {
+export type HousePrice = {
   type: 'aluguel' | 'venda'
   value: string
 }
 
-export interface House {
-  url: string
-  title: string
-  price: HousePrice
+export type House = {
+  id: string
+  name: string
+  description: string
+  number: string
+  street: string
+  district: string
+  city: string
+  price: HousePrice[]
   properties: HouseProperty[]
 }

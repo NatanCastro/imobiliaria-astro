@@ -34,8 +34,8 @@ export const Modal = ({ isShow, showFunc }: IModal) => {
           </a>
         </div>
       </aside>
-      <button className='absolute right-6 top-4 w-12 h-12' onClick={showFunc}>
-        <Close className='text-4xl text-dark-blue' />
+      <button className='absolute right-6 top-4 text-5xl' onClick={showFunc}>
+        <Close className='text-dark-blue' fontSize='inherit' />
       </button>
     </div>
   )

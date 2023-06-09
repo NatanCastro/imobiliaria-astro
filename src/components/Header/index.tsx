@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import { Modal } from './Modal'
 import { Menu } from '@mui/icons-material'
@@ -36,8 +37,8 @@ export const Header = () => {
           href='/'>
           entrar
         </a>
-        <button onClick={toggleModal}>
-          <Menu className='text-8xl text-dark-blue' />
+        <button onClick={toggleModal} className='text-5xl'>
+          <Menu className='text-dark-blue' fontSize='inherit' />
         </button>
       </div>
       <Modal isShow={modal} showFunc={toggleModal} />

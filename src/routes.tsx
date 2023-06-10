@@ -1,10 +1,22 @@
 import { Routes, Route } from 'react-router-dom'
-import { Home } from './pages/Home'
+import { Suspense, lazy } from 'react'
+import { Loading } from './components/Loading'
+
+const Home = lazy(() => import('./pages/Home'))
 
 export const Router = () => {
 	return (
 		<Routes>
-			<Route element={<Home />} path='/' />
+			<Route path='/'>
+				<Route
+					element={
+						<Suspense fallback={<Loading />}>
+							<Home />
+						</Suspense>
+					}
+					index
+				/>
+			</Route>
 		</Routes>
 	)
 }

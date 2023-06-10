@@ -6,7 +6,7 @@ export type HouseProperty = {
 
 export type HousePrice = {
   type: 'aluguel' | 'venda'
-  value: string
+  value: number
 }
 
 export type House = {
@@ -19,4 +19,5 @@ export type House = {
   city: string
   price: HousePrice[]
   properties: HouseProperty[]
+  images: string[]
 }

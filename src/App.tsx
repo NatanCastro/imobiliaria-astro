@@ -1,6 +1,7 @@
 import { Layout } from './components/Layout'
 import { Router } from './routes'
 import { BrowserRouter } from 'react-router-dom'
+import 'primereact/resources/primereact.min.css'
 
 function App() {
   return (

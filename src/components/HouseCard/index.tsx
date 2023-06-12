@@ -1,5 +1,6 @@
 import type { House, HouseProperty, PropertyDescription } from './types'
 import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
+import { Galleria } from 'primereact/galleria'
 
 const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
   const getIcon = (propertyDesc: PropertyDescription) => {
@@ -32,18 +33,34 @@ const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
   )
 }
 
+const imageTemplate = (image: string) => {
+  return <img className='w-full block' src={image} alt='' />
+}
+
 export const HouseCard = ({
   name,
   description,
   price,
-  properties
+  properties,
+  images
 }: Omit<House, 'id'>) => {
   return (
     <div className='max-w-[18rem] bg-gray-200 rounded-md shadow-black/50 shadow-md'>
-      <img className='w-full rounded-t-md' src='/livingRoom.webp' alt={name} />
+      <Galleria
+        value={images}
+        item={imageTemplate}
+        circular
+        showThumbnails={false}
+        showIndicators
+        showIndicatorsOnItem={true}
+        showItemNavigators
+        showItemNavigatorsOnHover
+        autoPlay
+        transitionInterval={4000}
+      />
       <div className='px-2 my-2'>
         <h3 className='font-poppins text-xl'>{name}</h3>
-        <p className='text-gray-900'>{description.slice(0, 30)}</p>
+        <p className='text-gray-900'>{description}</p>
         <div className='flex flex-col gap-2 my-2'>
           {price.map(({ type, value }, index) => {
             const formatedPrice = value.toLocaleString('pt-BR', {

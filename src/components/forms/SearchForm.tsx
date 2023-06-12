@@ -22,7 +22,7 @@ export const SearchForm = () => {
   const onSubmit: SubmitHandler<FormData> = (data) => console.log(data)
   return (
     <form
-      className='grid grid-cols-2 place-items-center gap-3 rounded-md bg-gray-100 p-2 max-md:flex max-md:flex-wrap max-md:flex-grow max-md:mx-2'
+      className='grid grid-cols-2 place-items-center gap-3 rounded-md bg-gray-100 p-2 max-md:mx-2 max-md:flex max-md:flex-grow max-md:flex-wrap'
       onSubmit={handleSubmit(onSubmit)}>
       <CheckboxDropdown
         displayText='comprar ou vender'

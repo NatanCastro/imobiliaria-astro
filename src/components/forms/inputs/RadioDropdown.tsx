@@ -29,10 +29,10 @@ export const RadioDropdown = (props: IDropdownProps) => {
 
   return (
     <div
-      className='group relative cursor-pointer rounded bg-gray-100 flex-grow'
+      className='group relative flex-grow cursor-pointer rounded bg-gray-100'
       tabIndex={0}>
       <input
-        className='w-full rounded bg-white px-3 py-2 min-w-full'
+        className='w-full min-w-full rounded bg-white px-3 py-2'
         placeholder={displayText}
         value={selected}
         type='text'

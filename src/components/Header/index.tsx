@@ -17,14 +17,14 @@ export const Header = () => {
       <div className='flex items-center gap-14 max-sm:gap-6'>
         <ul className='flex items-center gap-4 text-xl max-md:hidden'>
           <a
-            className='flex gap-4 items-center'
+            className='flex items-center gap-4'
             href='https://wa.me/+0000000000000'
             target='_blank'>
             <WhatsApp className='text-2xl' />
             (00) 00000-0000
           </a>
           <a
-            className='flex gap-4 items-center max-[769px]:hidden'
+            className='flex items-center gap-4 max-[769px]:hidden'
             href='tel:000000000000'
             target='_blank'>
             <Phone className='text-2xl' />

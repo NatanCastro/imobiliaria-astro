@@ -34,7 +34,7 @@ const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
 }
 
 const imageTemplate = (image: string) => {
-  return <img className='w-full block' src={image} alt='' />
+  return <img className='block w-full' src={image} alt='' />
 }
 
 export const HouseCard = ({
@@ -45,7 +45,7 @@ export const HouseCard = ({
   images
 }: Omit<House, 'id'>) => {
   return (
-    <div className='max-w-[18rem] bg-gray-200 rounded-md shadow-black/50 shadow-md'>
+    <div className='max-w-[18rem] rounded-md bg-gray-200 shadow-md shadow-black/50'>
       <Galleria
         value={images}
         item={imageTemplate}
@@ -58,10 +58,10 @@ export const HouseCard = ({
         autoPlay
         transitionInterval={4000}
       />
-      <div className='px-2 my-2'>
-        <h3 className='font-poppins text-xl'>{name}</h3>
-        <p className='text-gray-900'>{description}</p>
-        <div className='flex flex-col gap-2 my-2'>
+      <div className='my-2 px-2'>
+        <h3 className='mb-4 font-poppins text-xl'>{name}</h3>
+        <p className='text-md text-gray-900'>{description}</p>
+        <div className='my-4 flex flex-col gap-2'>
           {price.map(({ type, value }, index) => {
             const formatedPrice = value.toLocaleString('pt-BR', {
               style: 'currency',
@@ -69,19 +69,19 @@ export const HouseCard = ({
             })
             return (
               <p
-                className='text-dark-blue font-semibold font-poppins capitalize text-md'
+                className='text-md font-poppins font-semibold capitalize text-dark-blue'
                 key={index}>
                 {formatedPrice} / <span className='text-sm'>{type}</span>
               </p>
             )
           })}
         </div>
-        <div className='flex gap-x-4 items-center my-2'>
+        <div className='my-2 flex items-center gap-x-4'>
           <HouseProperties properties={properties} />
         </div>
       </div>
       <a
-        className='w-full flex justify-center items-center py-2 text-white bg-dark-blue rounded-b-md'
+        className='flex w-full items-center justify-center rounded-b-md bg-dark-blue py-2 text-white'
         href=''>
         mais informações
       </a>

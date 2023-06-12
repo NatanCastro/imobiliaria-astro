@@ -16,11 +16,11 @@ export const Modal = ({ isShow, showFunc }: IModal) => {
           Lorem ipsum dolor sit.
         </h3>
         <div className='mb-4 text-lg font-extralight'>
-          <a className='flex gap-4 items-center' href='tel:000000000000'>
+          <a className='flex items-center gap-4' href='tel:000000000000'>
             <Phone className='text-xl text-dark-blue' />
             (00) 00000-0000
           </a>
-          <a className='flex gap-4 items-center' href='https://wa.me/+0000000000000'>
+          <a className='flex items-center gap-4' href='https://wa.me/+0000000000000'>
             <WhatsApp className='text-xl text-dark-blue' />
             Whatsapp (00) 00000-0000
           </a>

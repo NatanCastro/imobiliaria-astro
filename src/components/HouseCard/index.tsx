@@ -1,6 +1,7 @@
 import type { House, HouseProperty, PropertyDescription } from './types'
 import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
 import { Galleria } from 'primereact/galleria'
+import { NavLink } from 'react-router-dom'
 
 const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
   const getIcon = (propertyDesc: PropertyDescription) => {
@@ -38,12 +39,14 @@ const imageTemplate = (image: string) => {
 }
 
 export const HouseCard = ({
+  id,
   name,
-  description,
   price,
   properties,
-  images
-}: Omit<House, 'id'>) => {
+  images,
+  district,
+  city
+}: House) => {
   return (
     <div className='max-w-[18rem] rounded-md bg-gray-200 shadow-md shadow-black/50'>
       <Galleria
@@ -60,7 +63,9 @@ export const HouseCard = ({
       />
       <div className='my-2 px-2'>
         <h3 className='mb-4 font-poppins text-xl'>{name}</h3>
-        <p className='text-md text-gray-900'>{description}</p>
+        <p className='text-md text-gray-900'>
+          {city} no bairro {district}
+        </p>
         <div className='my-4 flex flex-col gap-2'>
           {price.map(({ type, value }, index) => {
             const formatedPrice = value.toLocaleString('pt-BR', {
@@ -80,11 +85,11 @@ export const HouseCard = ({
           <HouseProperties properties={properties} />
         </div>
       </div>
-      <a
+      <NavLink
         className='flex w-full items-center justify-center rounded-b-md bg-dark-blue py-2 text-white'
-        href=''>
+        to={`/real-state/${id}`}>
         mais informações
-      </a>
+      </NavLink>
     </div>
   )
 }

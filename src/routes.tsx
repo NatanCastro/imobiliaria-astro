@@ -4,7 +4,7 @@ import { Loading } from './components/Loading'
 
 const Home = lazy(() => import('./pages/Home'))
 
-export const Router = () => {
+const Router = () => {
   return (
     <Routes>
       <Route path='/'>
@@ -20,3 +20,5 @@ export const Router = () => {
     </Routes>
   )
 }
+
+export default Router

@@ -1,4 +1,3 @@
-'use client'
 import { SearchForm } from '../forms'
 
 export const SearchArea = () => {

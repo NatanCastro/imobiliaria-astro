@@ -1,4 +1,3 @@
-'use client'
 import { UseFormRegister } from 'react-hook-form'
 import { Checkbox } from './'
 import { FormData } from '../'

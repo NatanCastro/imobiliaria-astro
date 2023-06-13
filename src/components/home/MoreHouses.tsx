@@ -21,8 +21,10 @@ export const MoreHouses = () => {
         <h2 className='font-poppins text-3xl text-dark-blue'>
           Outros imoveis que podem te interessar
         </h2>
-        <NavLink className='italic text-dark-blue hover:underline' to={'real-state'}>
-          Ver todos os imoveis
+        <NavLink
+          className='text-xl italic text-dark-blue hover:underline'
+          to={'real-state'}>
+          Veja mais
         </NavLink>
       </div>
       <div className='mx-auto flex flex-wrap justify-center gap-8'>

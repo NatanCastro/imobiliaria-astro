@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { House } from '../HouseCard/types'
 import { dataHouses } from '../../assets/data/realState'
 import { HouseCard } from '../HouseCard'
+import { NavLink } from 'react-router-dom'
 
 export const MoreHouses = () => {
   const [houses, setHouses] = useState<House[]>([])
@@ -20,9 +21,9 @@ export const MoreHouses = () => {
         <h2 className='font-poppins text-3xl text-dark-blue'>
           Outros imoveis que podem te interessar
         </h2>
-        <a className='italic text-dark-blue hover:underline' href='#'>
+        <NavLink className='italic text-dark-blue hover:underline' to={'real-state'}>
           Ver todos os imoveis
-        </a>
+        </NavLink>
       </div>
       <div className='mx-auto flex flex-wrap justify-center gap-8'>
         {houses.map((house) => {

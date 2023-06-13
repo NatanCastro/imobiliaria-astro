@@ -1,6 +1,7 @@
 import type { House, HouseProperty, PropertyDescription } from './types'
 import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
 import { Galleria } from 'primereact/galleria'
+import { NavLink } from 'react-router-dom'
 
 const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
   const getIcon = (propertyDesc: PropertyDescription) => {
@@ -38,14 +39,16 @@ const imageTemplate = (image: string) => {
 }
 
 export const HouseCard = ({
+  id,
   name,
-  description,
   price,
   properties,
-  images
-}: Omit<House, 'id'>) => {
+  images,
+  district,
+  city
+}: House) => {
   return (
-    <div className='max-w-[18rem] rounded-md bg-gray-200 shadow-md shadow-black/50'>
+    <div className='max-w-[18rem] overflow-hidden rounded-md bg-gray-200 shadow-md shadow-black/50'>
       <Galleria
         value={images}
         item={imageTemplate}
@@ -60,8 +63,13 @@ export const HouseCard = ({
       />
       <div className='my-2 px-2'>
         <h3 className='mb-4 font-poppins text-xl'>{name}</h3>
-        <p className='text-md text-gray-900'>{description}</p>
-        <div className='my-4 flex flex-col gap-2'>
+        <p className='text-md text-gray-900'>
+          {city} no bairro {district}
+        </p>
+        <div className='my-2 flex items-center gap-x-4'>
+          <HouseProperties properties={properties} />
+        </div>
+        <div className='my-4 flex flex-row justify-evenly gap-2'>
           {price.map(({ type, value }, index) => {
             const formatedPrice = value.toLocaleString('pt-BR', {
               style: 'currency',
@@ -69,22 +77,20 @@ export const HouseCard = ({
             })
             return (
               <p
-                className='text-md font-poppins font-semibold capitalize text-dark-blue'
+                className='font-poppins text-base font-semibold capitalize text-dark-blue'
                 key={index}>
-                {formatedPrice} / <span className='text-sm'>{type}</span>
+                {formatedPrice}
+                {type === 'aluguel' && <>/Mês</>}
               </p>
             )
           })}
         </div>
-        <div className='my-2 flex items-center gap-x-4'>
-          <HouseProperties properties={properties} />
-        </div>
       </div>
-      <a
+      <NavLink
         className='flex w-full items-center justify-center rounded-b-md bg-dark-blue py-2 text-white'
-        href=''>
+        to={`/real-state/${id}`}>
         mais informações
-      </a>
+      </NavLink>
     </div>
   )
 }

@@ -1,14 +1,11 @@
-import { Layout } from './components/Layout'
-import { Router } from './routes'
 import { BrowserRouter } from 'react-router-dom'
 import 'primereact/resources/primereact.min.css'
+import Router from './routes'
 
 function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Router />
-      </Layout>
+      <Router />
     </BrowserRouter>
   )
 }

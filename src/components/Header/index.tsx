@@ -1,8 +1,8 @@
-'use client'
 import { useState } from 'react'
 import { Modal } from './Modal'
 import { Menu } from '@mui/icons-material'
 import { Phone, WhatsApp } from '@mui/icons-material'
+import { NavLink } from 'react-router-dom'
 
 export const Header = () => {
   const [modal, setModal] = useState(false)
@@ -13,7 +13,9 @@ export const Header = () => {
 
   return (
     <header className='flex w-full flex-row items-center justify-between bg-gray-100 px-7 py-3 text-xl max-sm:px-3'>
-      <h1 className='text-3xl'>LOGO</h1>
+      <NavLink to='/'>
+        <h1 className='text-3xl'>LOGO</h1>
+      </NavLink>
       <div className='flex items-center gap-14 max-sm:gap-6'>
         <ul className='flex items-center gap-4 text-xl max-md:hidden'>
           <a

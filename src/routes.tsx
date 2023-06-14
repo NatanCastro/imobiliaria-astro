@@ -1,4 +1,10 @@
-import { Routes, Route } from 'react-router-dom'
+import {
+  Routes,
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider
+} from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import { Loading } from './components/Loading'
 
@@ -7,8 +13,8 @@ const Home = lazy(() => import('./pages/Home'))
 const RealStates = lazy(() => import('./pages/RealStates'))
 const NotFound = lazy(() => import('./pages/404'))
 
-const Router = () => {
-  return (
+const routes = createBrowserRouter(
+  createRoutesFromElements(
     <Routes>
       <Route
         path='/'
@@ -51,6 +57,6 @@ const Router = () => {
       />
     </Routes>
   )
-}
+)
 
-export default Router
+export const Router = () => <RouterProvider router={routes} />

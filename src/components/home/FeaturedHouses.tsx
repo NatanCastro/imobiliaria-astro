@@ -19,9 +19,7 @@ export const FeaturedHouses = () => {
     <div className='mx-auto my-24 max-w-5xl px-4'>
       <div className='flex flex-col items-start justify-between gap-y-2 lg:flex-row lg:items-center'>
         <h2 className='font-poppins text-4xl text-dark-blue'>Imoveis em alta</h2>
-        <NavLink
-          className='text-xl italic text-dark-blue hover:underline'
-          to={'real-state'}>
+        <NavLink className='text-xl italic text-dark-blue hover:underline' to='imoveis'>
           Veja mais
         </NavLink>
       </div>

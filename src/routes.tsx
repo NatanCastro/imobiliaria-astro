@@ -1,62 +1,37 @@
-import {
-  Routes,
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider
-} from 'react-router-dom'
-import { Suspense, lazy } from 'react'
-import { Loading } from './components/Loading'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { lazy } from 'react'
+import { AddSuspense } from './components/AddSuspense'
 
 const Layout = lazy(() => import('./components/Layout'))
 const Home = lazy(() => import('./pages/Home'))
 const RealStates = lazy(() => import('./pages/RealStates'))
 const NotFound = lazy(() => import('./pages/404'))
 
-const routes = createBrowserRouter(
-  createRoutesFromElements(
-    <Routes>
-      <Route
-        path='/'
-        element={
-          <Suspense fallback={<Loading />}>
-            <Layout />
-          </Suspense>
-        }
-        errorElement={
-          <Suspense fallback={<Loading />}>
-            <NotFound />
-          </Suspense>
-        }>
-        <Route
-          element={
-            <Suspense fallback={<Loading />}>
-              <Home />
-            </Suspense>
+const routes = createBrowserRouter([
+  {
+    path: '/',
+    element: <AddSuspense component={<Layout />} />,
+    errorElement: <AddSuspense component={<NotFound />} />,
+    children: [
+      {
+        element: <AddSuspense component={<Home />} />,
+        index: true
+      },
+      {
+        path: 'imoveis',
+        children: [
+          {
+            element: <AddSuspense component={<RealStates />} />,
+            index: true
           }
-          index
-        />
-        <Route path='real-state'>
-          <Route
-            element={
-              <Suspense fallback={<Loading />}>
-                <RealStates />
-              </Suspense>
-            }
-            index
-          />
-        </Route>
-      </Route>
-      <Route
-        path='*'
-        element={
-          <Suspense fallback={<Loading />}>
-            <NotFound />
-          </Suspense>
-        }
-      />
-    </Routes>
-  )
-)
+        ]
+      }
+    ]
+  },
+  {
+    path: '*',
+    element: <AddSuspense component={<NotFound />} />
+  }
+])
 
 export const Router = () => <RouterProvider router={routes} />

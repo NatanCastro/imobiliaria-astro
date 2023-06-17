@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { lazy } from 'react'
-import { AddSuspense } from './components/AddSuspense'
+import { AddSuspense } from './features/components/add-suspense'
 
-const Layout = lazy(() => import('./components/Layout'))
-const Home = lazy(() => import('./pages/Home'))
-const RealStates = lazy(() => import('./pages/RealStates'))
-const NotFound = lazy(() => import('./pages/404'))
+const Layout = lazy(() => import('./features/components/layout'))
+const Home = lazy(() => import('./features/home/pages/home'))
+const RealStates = lazy(() => import('./features/real-state/pages/real-states'))
+const NotFound = lazy(() => import('./features/pages/404'))
 
 const routes = createBrowserRouter([
   {

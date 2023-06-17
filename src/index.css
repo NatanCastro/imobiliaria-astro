@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: var(--font-family);
+}
+span.p-inputnumber.p-component.p-inputwrapper.p-inputwrapper-filled {
+  @apply w-32;
+}
+span.p-inputnumber.p-component.p-inputwrapper.p-inputwrapper-filled
+  > input.p-inputtext.p-component.p-filled.p-inputnumber-input {
+  @apply w-32;
+}

@@ -1,7 +1,7 @@
 import { ChangeEventHandler, useState } from 'react'
 import { Radio } from './'
 import { UseFormRegister } from 'react-hook-form'
-import { FormData } from '../'
+import { FormData } from '../../../home/components/search-form'
 
 interface IDropdownProps {
   displayText: string

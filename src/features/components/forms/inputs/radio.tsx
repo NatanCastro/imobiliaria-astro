@@ -1,6 +1,6 @@
 import { ChangeEventHandler, useId } from 'react'
 import { UseFormRegister } from 'react-hook-form'
-import { FormData } from '../SearchForm'
+import { FormData } from '../../../home/components/search-form'
 
 interface IRadio {
   value: string

@@ -1,4 +1,4 @@
-import type { House, HouseProperty, PropertyDescription } from './types'
+import type { House, HouseProperty, PropertyDescription } from './house-card.type'
 import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
 import { Galleria } from 'primereact/galleria'
 import { NavLink } from 'react-router-dom'

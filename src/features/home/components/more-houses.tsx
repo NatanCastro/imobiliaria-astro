@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 import { HouseCard } from '../../components/house-card'
 import { House } from '../../components/house-card.type'
-import { dataHouses } from '../../../assets/data/real-state'
 import { NavLink } from 'react-router-dom'
+import axios from 'axios'
 
 export const MoreHouses = () => {
   const [houses, setHouses] = useState<House[]>([])
 
   async function getHouses() {
-    setHouses(dataHouses.slice(3, 6))
+    const { data } = await axios.post<House[]>(
+      'real-state',
+      { take: 3, skip: 3 },
+      { baseURL: import.meta.env.VITE_BACKEND_URL }
+    )
+    setHouses(data)
   }
 
   useEffect(() => {

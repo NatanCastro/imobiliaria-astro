@@ -6,7 +6,7 @@ import { Services } from '../components/services'
 const Home = () => {
   return (
     <>
-      <main>
+      <main className='overflow-hidden'>
         <SearchArea />
         <FeaturedHouses />
         <Services />

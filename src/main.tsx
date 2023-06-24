@@ -8,9 +8,9 @@ import './index.css'
 import reportWebVitals from './reportWebVitals.ts'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 )
 
 reportWebVitals()

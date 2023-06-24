@@ -1,7 +1,7 @@
 import type { House, HouseProperty, PropertyDescription } from './house-card.type'
 import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
 import { Galleria } from 'primereact/galleria'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
   const getIcon = (propertyDesc: PropertyDescription) => {

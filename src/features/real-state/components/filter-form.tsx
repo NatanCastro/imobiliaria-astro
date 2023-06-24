@@ -7,7 +7,7 @@ import { InputNumber } from 'primereact/inputnumber'
 import { SelectButton } from 'primereact/selectbutton'
 import { Button } from 'primereact/button'
 import { MultiSelect } from 'primereact/multiselect'
-import { SetURLSearchParams } from 'react-router-dom'
+import { SetURLSearchParams, useLoaderData } from 'react-router-dom'
 
 const filterSchema = z.object({
   city: z.array(z.string()).optional(),
@@ -43,6 +43,7 @@ type Props = {
 }
 
 export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) => {
+  const data = useLoaderData() as string[]
   const {
     control,
     handleSubmit,

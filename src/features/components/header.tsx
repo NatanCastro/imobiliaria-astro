@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Modal } from './Modal'
+import { Modal } from './header-modal'
 import { Menu } from '@mui/icons-material'
 import { Phone, WhatsApp } from '@mui/icons-material'
 import { NavLink } from 'react-router-dom'

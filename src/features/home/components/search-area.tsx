@@ -1,4 +1,4 @@
-import { SearchForm } from '../forms'
+import { SearchForm } from './search-form'
 
 export const SearchArea = () => {
   return (

@@ -1,6 +1,6 @@
 import { UseFormRegister } from 'react-hook-form'
 import { Checkbox } from './'
-import { FormData } from '../'
+import { FormData } from '../../../home/components/search-form'
 import { ChangeEventHandler, useEffect, useState } from 'react'
 
 interface IDropdownProps {

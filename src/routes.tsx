@@ -1,16 +1,18 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { lazy } from 'react'
-import { AddSuspense } from './components/AddSuspense'
+import { AddSuspense } from './features/components/add-suspense'
+import Layout from './features/components/layout'
+import { RealState } from './features/real-state/pages/real-state'
+import axios from 'axios'
 
-const Layout = lazy(() => import('./components/Layout'))
-const Home = lazy(() => import('./pages/Home'))
-const RealStates = lazy(() => import('./pages/RealStates'))
-const NotFound = lazy(() => import('./pages/404'))
+const Home = lazy(() => import('./features/home/pages/home'))
+const RealStates = lazy(() => import('./features/real-state/pages/real-states'))
+const NotFound = lazy(() => import('./features/pages/404'))
 
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <AddSuspense component={<Layout />} />,
+    element: <Layout />,
     errorElement: <AddSuspense component={<NotFound />} />,
     children: [
       {
@@ -22,7 +24,17 @@ const routes = createBrowserRouter([
         children: [
           {
             element: <AddSuspense component={<RealStates />} />,
-            index: true
+            index: true,
+            loader: async () => {
+              const { data } = await axios.get<{ city: string }[]>('real-state/cities', {
+                baseURL: import.meta.env.VITE_BACKEND_URL
+              })
+              return data.map((d) => d.city)
+            }
+          },
+          {
+            element: <AddSuspense component={<RealState />} />,
+            path: ':guid'
           }
         ]
       }

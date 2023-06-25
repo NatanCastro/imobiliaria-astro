@@ -1,4 +1,4 @@
-import { House } from '../../components/HouseCard/types'
+import { House } from '../../features/components/house-card.type'
 export const dataHouses: House[] = [
   {
     id: '1',

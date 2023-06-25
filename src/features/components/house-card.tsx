@@ -1,7 +1,7 @@
-import type { House, HouseProperty, PropertyDescription } from './types'
+import type { House, HouseProperty, PropertyDescription } from './house-card.type'
 import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
 import { Galleria } from 'primereact/galleria'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const HouseProperties = ({ properties }: { properties: HouseProperty[] }) => {
   const getIcon = (propertyDesc: PropertyDescription) => {
@@ -47,6 +47,7 @@ export const HouseCard = ({
   district,
   city
 }: House) => {
+  images = ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']
   return (
     <div className='max-w-[18rem] overflow-hidden rounded-md bg-gray-200 shadow-md shadow-black/50'>
       <Galleria
@@ -86,11 +87,11 @@ export const HouseCard = ({
           })}
         </div>
       </div>
-      <NavLink
+      <Link
         className='flex w-full items-center justify-center rounded-b-md bg-dark-blue py-2 text-white'
-        to={`/real-state/${id}`}>
+        to={`/imoveis/${id}`}>
         mais informações
-      </NavLink>
+      </Link>
     </div>
   )
 }

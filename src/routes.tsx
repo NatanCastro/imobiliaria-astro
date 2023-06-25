@@ -1,56 +1,49 @@
-import { Routes, Route } from 'react-router-dom'
-import { Suspense, lazy } from 'react'
-import { Loading } from './components/Loading'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { lazy } from 'react'
+import { AddSuspense } from './features/components/add-suspense'
+import Layout from './features/components/layout'
+import { RealState } from './features/real-state/pages/real-state'
+import axios from 'axios'
 
-const Layout = lazy(() => import('./components/Layout'))
-const Home = lazy(() => import('./pages/Home'))
-const RealStates = lazy(() => import('./pages/RealStates'))
-const NotFound = lazy(() => import('./pages/404'))
+const Home = lazy(() => import('./features/home/pages/home'))
+const RealStates = lazy(() => import('./features/real-state/pages/real-states'))
+const NotFound = lazy(() => import('./features/pages/404'))
 
-const Router = () => {
-  return (
-    <Routes>
-      <Route
-        path='/'
-        element={
-          <Suspense fallback={<Loading />}>
-            <Layout />
-          </Suspense>
-        }
-        errorElement={
-          <Suspense fallback={<Loading />}>
-            <NotFound />
-          </Suspense>
-        }>
-        <Route
-          element={
-            <Suspense fallback={<Loading />}>
-              <Home />
-            </Suspense>
-          }
-          index
-        />
-        <Route path='real-state'>
-          <Route
-            element={
-              <Suspense fallback={<Loading />}>
-                <RealStates />
-              </Suspense>
+const routes = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <AddSuspense component={<NotFound />} />,
+    children: [
+      {
+        element: <AddSuspense component={<Home />} />,
+        index: true
+      },
+      {
+        path: 'imoveis',
+        children: [
+          {
+            element: <AddSuspense component={<RealStates />} />,
+            index: true,
+            loader: async () => {
+              const { data } = await axios.get<{ city: string }[]>('real-state/cities', {
+                baseURL: import.meta.env.VITE_BACKEND_URL
+              })
+              return data.map((d) => d.city)
             }
-            index
-          />
-        </Route>
-      </Route>
-      <Route
-        path='*'
-        element={
-          <Suspense fallback={<Loading />}>
-            <NotFound />
-          </Suspense>
-        }
-      />
-    </Routes>
-  )
-}
+          },
+          {
+            element: <AddSuspense component={<RealState />} />,
+            path: ':guid'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '*',
+    element: <AddSuspense component={<NotFound />} />
+  }
+])
 
-export default Router
+export const Router = () => <RouterProvider router={routes} />

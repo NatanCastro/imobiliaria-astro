@@ -1,14 +1,12 @@
-import { BrowserRouter } from 'react-router-dom'
-import 'primereact/resources/primereact.min.css'
-import Router from './routes'
 import { Analytics } from '@vercel/analytics/react'
+import { Router } from './routes'
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <Router />
       <Analytics />
-    </BrowserRouter>
+    </>
   )
 }
 

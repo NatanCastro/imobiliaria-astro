@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: var(--font-family);
+}
+span.p-inputnumber.p-component.p-inputwrapper.p-inputwrapper-filled {
+  @apply w-32;
+}
+span.p-inputnumber.p-component.p-inputwrapper.p-inputwrapper-filled
+  > input.p-inputtext.p-component.p-filled.p-inputnumber-input {
+  @apply w-32;
+}
+
+.p-dataview .p-dataview-content {
+  @apply grid bg-inherit;
+}
+
+.p-grid.grid.p-nogutter.grid-nogutter {
+  @apply flex flex-wrap items-center justify-center gap-9;
+}
+
+.p-paginator.p-component.p-paginator-bottom {
+  @apply bg-inherit;
+}

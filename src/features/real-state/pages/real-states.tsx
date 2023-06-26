@@ -23,6 +23,23 @@ const RealStates = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [houses, setHouses] = useState<House[]>()
   const [openSidebarFilter, setOpenSidebarFilter] = useState<boolean>(false)
+  const [selectedCity, setSelectedCity] = useState<string>(searchParams.get('city') || '')
+  const [districts, setDistricts] = useState<string[]>()
+
+  const getDistricts = useCallback(async () => {
+    if (!selectedCity) return
+    const { data } = await axios.get<{ district: string }[]>(
+      `real-state/cities/${selectedCity}`,
+      {
+        baseURL: import.meta.env.VITE_BACKEND_URL
+      }
+    )
+    setDistricts(data.map((d) => d.district))
+  }, [selectedCity])
+
+  useEffect(() => {
+    getDistricts()
+  }, [getDistricts])
 
   const getHouses = async () => {
     const getParam = getParams(searchParams)
@@ -34,9 +51,21 @@ const RealStates = () => {
       'real-state',
       {
         where: {
+          city: {
+            equals: getParam('city')
+          },
+          district: {
+            equals: getParam('district')
+          },
           area: {
             gte: getParam('maxArea'),
             lte: getParam('minArea')
+          },
+          bedroomNumber: {
+            gte: getParam('numberOfBedroom')
+          },
+          bathroomNumber: {
+            gte: getParam('numberOfBathroom')
           },
           purchaseValue: {
             gte: getParam('minPurchacePrice'),
@@ -80,7 +109,12 @@ const RealStates = () => {
           onHide={() => setOpenSidebarFilter(false)}
           position='right'
           className='w-full md:w-fit'>
-          <FilterForm searchParams={searchParams} setSearchParams={setSearchParams} />
+          <FilterForm
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            setSelectedCity={setSelectedCity}
+            districts={districts}
+          />
         </Sidebar>
       </div>
       <DataView

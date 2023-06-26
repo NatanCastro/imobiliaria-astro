@@ -1,17 +1,9 @@
-import { Facebook, Instagram, Phone, WhatsApp, Close } from '@mui/icons-material'
+import { Facebook, Instagram, Phone, WhatsApp } from '@mui/icons-material'
 
-interface IModal {
-  isShow: boolean
-  showFunc: () => void
-}
-
-export const Modal = ({ isShow, showFunc }: IModal) => {
-  const hideShowTag = isShow ? 'grid opacity-100' : 'hidden opacity-0'
-
+export const Modal = () => {
   return (
-    <div
-      className={`modal fixed inset-0 bg-gray-100 ${hideShowTag} z-50 transition-opacity`}>
-      <aside className='relative flex h-full flex-col  justify-end bg-gray-300 p-4'>
+    <div className='grid h-full grid-cols-6'>
+      <aside className='relative flex flex-col justify-end'>
         <h3 className='text mb-6 text-2xl font-bold text-dark-blue'>
           Lorem ipsum dolor sit.
         </h3>
@@ -29,14 +21,12 @@ export const Modal = ({ isShow, showFunc }: IModal) => {
           <a href='https://facebook.com' target='_blank'>
             <Facebook className='text-2xl text-dark-blue' />
           </a>
-          <a href=''>
+          <a href='https://instagram.com' target='_blank'>
             <Instagram className='text-2xl text-dark-blue' />
           </a>
         </div>
       </aside>
-      <button className='absolute right-6 top-4 text-5xl' onClick={showFunc}>
-        <Close className='text-dark-blue' fontSize='inherit' />
-      </button>
+      <div className='col-span-5'></div>
     </div>
   )
 }

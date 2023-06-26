@@ -2,15 +2,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SelectItemOptionsType } from 'primereact/selectitem'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { serializeFormQuery } from '../../../utils/serializeFormQuery'
+import { serializeFormQuery } from '../../../utils/serialize-form-query'
 import { InputNumber } from 'primereact/inputnumber'
 import { SelectButton } from 'primereact/selectbutton'
 import { Button } from 'primereact/button'
-import { MultiSelect } from 'primereact/multiselect'
+import { Dropdown } from 'primereact/dropdown'
 import { SetURLSearchParams, useLoaderData } from 'react-router-dom'
+import { Dispatch, SetStateAction } from 'react'
 
 const filterSchema = z.object({
-  city: z.array(z.string()).optional(),
+  city: z.string().optional(),
+  district: z.string().optional(),
   sellType: z.array(z.string()).optional(),
   minPurchacePrice: z.coerce.number().gte(0).optional(),
   maxPurchacePrice: z.coerce.number().gte(0).optional(),
@@ -40,9 +42,16 @@ export type filterData = z.infer<typeof filterSchema>
 type Props = {
   searchParams: URLSearchParams
   setSearchParams: SetURLSearchParams
+  setSelectedCity: Dispatch<SetStateAction<string>>
+  districts?: string[]
 }
 
-export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) => {
+export const FilterForm: React.FC<Props> = ({
+  searchParams,
+  setSearchParams,
+  setSelectedCity,
+  districts
+}) => {
   const data = useLoaderData() as string[]
   const {
     control,
@@ -72,21 +81,43 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
         onSubmit={onSubmit}
         className='flex flex-col items-start justify-center gap-y-6 rounded bg-white px-2 py-4'>
         <Controller
-          defaultValue={searchParams.get('city')?.split(',')}
+          defaultValue={searchParams.get('city') ?? undefined}
           name='city'
           control={control}
           render={({ field: f }) => (
-            <fieldset className='flex flex-col'>
+            <div className='flex flex-col'>
               <label htmlFor={f.name}>cidades</label>
-              <MultiSelect
+              <Dropdown
                 id={f.name}
                 {...f}
                 options={data}
+                onChange={(e) => {
+                  f.onChange(e.value)
+                  setSelectedCity(e.value)
+                }}
+                onBlur={() => f.onBlur()}
+                placeholder='cidade'
+              />
+            </div>
+          )}
+        />
+        <Controller
+          defaultValue={searchParams.get('district') ?? undefined}
+          name='district'
+          control={control}
+          render={({ field: f }) => (
+            <div className='flex flex-col'>
+              <label htmlFor={f.name}>bairro</label>
+              <Dropdown
+                id={f.name}
+                {...f}
+                options={districts}
                 onChange={(e) => f.onChange(e.value)}
                 onBlur={() => f.onBlur()}
-                placeholder='cidades'
+                disabled={!districts}
+                placeholder='bairro'
               />
-            </fieldset>
+            </div>
           )}
         />
         <Controller
@@ -94,7 +125,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
           name='sellType'
           control={control}
           render={({ field: f }) => (
-            <fieldset className='flex flex-col'>
+            <div className='flex flex-col'>
               <label htmlFor={f.name} id='modVenda'>
                 modalidade de compra:
               </label>
@@ -105,7 +136,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                 {...f}
                 multiple
               />
-            </fieldset>
+            </div>
           )}
         />
         <div>
@@ -116,7 +147,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
               name='minPurchacePrice'
               control={control}
               render={({ field: f }) => (
-                <fieldset className='flex flex-col'>
+                <div className='flex flex-col'>
                   <label className='mb-2' htmlFor={f.name}>
                     minimo:
                   </label>
@@ -134,7 +165,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                     prefix='R$'
                   />
                   {getFormErrorMessage(f.name)}
-                </fieldset>
+                </div>
               )}
             />
             <Controller
@@ -142,7 +173,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
               name='maxPurchacePrice'
               control={control}
               render={({ field: f }) => (
-                <fieldset className='flex flex-col'>
+                <div className='flex flex-col'>
                   <label className='mb-2' htmlFor={f.name}>
                     maximo:
                   </label>
@@ -160,7 +191,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                     prefix='R$'
                   />
                   {getFormErrorMessage(f.name)}
-                </fieldset>
+                </div>
               )}
             />
           </div>
@@ -173,7 +204,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
               name='minRentPrice'
               control={control}
               render={({ field: f }) => (
-                <fieldset className='flex flex-col'>
+                <div className='flex flex-col'>
                   <label className='mb-2' htmlFor={f.name}>
                     minimo:
                   </label>
@@ -191,7 +222,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                     prefix='R$'
                   />
                   {getFormErrorMessage(f.name)}
-                </fieldset>
+                </div>
               )}
             />
             <Controller
@@ -199,7 +230,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
               name='maxRentPrice'
               control={control}
               render={({ field: f }) => (
-                <fieldset className='flex flex-col'>
+                <div className='flex flex-col'>
                   <label className='mb-2' htmlFor={f.name}>
                     maximo:
                   </label>
@@ -217,7 +248,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                     prefix='R$'
                   />
                   {getFormErrorMessage(f.name)}
-                </fieldset>
+                </div>
               )}
             />
           </div>
@@ -230,7 +261,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
               name='minArea'
               control={control}
               render={({ field: f }) => (
-                <fieldset className='flex flex-col'>
+                <div className='flex flex-col'>
                   <label className='mb-2' htmlFor={f.name}>
                     minima:
                   </label>
@@ -247,7 +278,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                     suffix='m²'
                   />
                   {getFormErrorMessage(f.name)}
-                </fieldset>
+                </div>
               )}
             />
             <Controller
@@ -255,7 +286,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
               name='maxArea'
               control={control}
               render={({ field: f }) => (
-                <fieldset className='flex flex-col'>
+                <div className='flex flex-col'>
                   <label className='mb-2' htmlFor={f.name}>
                     maxima:
                   </label>
@@ -272,16 +303,17 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                     suffix='m²'
                   />
                   {getFormErrorMessage(f.name)}
-                </fieldset>
+                </div>
               )}
             />
           </div>
         </div>
         <Controller
+          defaultValue={Number(searchParams.get('numberOfBedroom')) ?? undefined}
           name='numberOfBedroom'
           control={control}
           render={({ field: f }) => (
-            <fieldset>
+            <div>
               <label className='mb-2' htmlFor={f.name} id='quartos'>
                 numero minimo de quartos:
               </label>
@@ -291,14 +323,15 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                 options={numberOfBathroomOrBedroomOption}
                 {...f}
               />
-            </fieldset>
+            </div>
           )}
         />
         <Controller
+          defaultValue={Number(searchParams.get('numberOfBathroom')) ?? undefined}
           name='numberOfBathroom'
           control={control}
           render={({ field: f }) => (
-            <fieldset>
+            <div>
               <label className='mb-2' htmlFor={f.name} id='banheiros'>
                 numero minimo de banheiros:
               </label>
@@ -309,7 +342,7 @@ export const FilterForm: React.FC<Props> = ({ searchParams, setSearchParams }) =
                 {...f}
               />
               {getFormErrorMessage(f.name)}
-            </fieldset>
+            </div>
           )}
         />
 

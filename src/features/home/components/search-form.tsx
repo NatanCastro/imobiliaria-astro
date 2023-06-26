@@ -6,7 +6,7 @@ import { Button } from 'primereact/button'
 import { Dropdown } from 'primereact/dropdown'
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
-import { serializeFormQuery } from '../../../utils/serializeFormQuery'
+import { serializeFormQuery } from '../../../utils/serialize-form-query'
 
 import '../css/search-form.css'
 import { SelectButton } from 'primereact/selectbutton'

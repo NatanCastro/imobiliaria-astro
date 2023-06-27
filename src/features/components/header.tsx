@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Modal } from './header-modal'
 import { Menu } from '@mui/icons-material'
 import { Phone, WhatsApp } from '@mui/icons-material'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Sidebar } from 'primereact/sidebar'
 
 export const Header = () => {
@@ -10,40 +10,41 @@ export const Header = () => {
 
   return (
     <header className='flex w-full flex-row items-center justify-between bg-gray-100 px-7 py-3 text-xl max-sm:px-3'>
-      <NavLink to='/'>
+      <Link to='/'>
         <h1 className='text-3xl'>LOGO</h1>
-      </NavLink>
+      </Link>
       <div className='flex items-center gap-14 max-sm:gap-6'>
         <ul className='flex items-center gap-4 text-xl max-md:hidden'>
           <li>
-            <a
+            <Link
               className='flex items-center gap-4'
-              href='https://wa.me/+0000000000000'
+              to='https://wa.me/+0000000000000'
               target='_blank'>
               <WhatsApp className='text-2xl' />
               (00) 00000-0000
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className='flex items-center gap-4 max-[769px]:hidden'
-              href='tel:000000000000'
+              to='tel:000000000000'
               target='_blank'>
               <Phone className='text-2xl' />
               (00) 00000-0000
-            </a>
+            </Link>
           </li>
         </ul>
-        <a
+        <Link
           className='rounded-xl border-[3px] border-dark-blue px-3 py-2 capitalize transition
           hover:bg-dark-blue hover:text-white'
-          href='/'>
+          to='/'>
           entrar
-        </a>
+        </Link>
         <div>
           <button
             onClick={() => setModal(true)}
             className='text-5xl'
+            aria-label='botão menu'
             aria-controls={modal ? 'menu' : undefined}
             aria-expanded={modal}>
             <Menu className='text-dark-blue' fontSize='inherit' />

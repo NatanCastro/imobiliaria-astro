@@ -1,23 +1,15 @@
-export type PropertyDescription = 'area' | 'quartos' | 'banheiros'
-export type HouseProperty = {
-  description: PropertyDescription
-  value: number
-}
-
-export type HousePrice = {
-  type: 'aluguel' | 'venda'
-  value: number
-}
-
 export type House = {
   id: string
+  city: string
   name: string
-  description: string
   number: string
   street: string
   district: string
-  city: string
-  price: HousePrice[]
-  properties: HouseProperty[]
+  description: string
+  bedroomNumber: number
+  bathroomNumber: number
+  area: number
+  rentValue?: number
+  purchaseValue?: number
   images: string[]
 }

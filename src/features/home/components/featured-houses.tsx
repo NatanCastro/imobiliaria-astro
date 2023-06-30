@@ -3,14 +3,16 @@ import { HouseCard } from '../../components/house-card'
 import { House } from '../../components/house-card.type'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
+import { FindRealState } from '../../../types/find-real-state.params'
 
 export const FeaturedHouses = () => {
   const [houses, setHouses] = useState<House[]>([])
 
   async function getHouses() {
+    const params: FindRealState = { take: 3 }
     const { data } = await axios.get<House[]>('real-state', {
       baseURL: import.meta.env.VITE_BACKEND_URL,
-      params: { take: 3 }
+      params
     })
     setHouses(data)
   }

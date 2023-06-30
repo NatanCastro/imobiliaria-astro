@@ -4,9 +4,11 @@ import axios from 'axios'
 import { House } from '../../components/house-card.type'
 import { useCallback, useEffect, useState } from 'react'
 import { HouseCard } from '../../components/house-card'
+import { HouseSkeleton } from '../components/house-skeleton'
 import { DataView } from 'primereact/dataview'
 import { Button } from 'primereact/button'
 import { Sidebar } from 'primereact/sidebar'
+import { FindRealState } from '../../../types/find-real-state.params'
 
 const getParams = (searchParams: URLSearchParams) => {
   return (searchParam: keyof filterData) => {
@@ -47,40 +49,25 @@ const RealStates = () => {
       ? (getParam('sellType') as string).split(',')
       : []
 
-    const { data } = await axios.post<House[]>(
-      'real-state',
-      {
-        where: {
-          city: {
-            equals: getParam('city')
-          },
-          district: {
-            equals: getParam('district')
-          },
-          area: {
-            gte: getParam('maxArea'),
-            lte: getParam('minArea')
-          },
-          bedroomNumber: {
-            gte: getParam('numberOfBedroom')
-          },
-          bathroomNumber: {
-            gte: getParam('numberOfBathroom')
-          },
-          purchaseValue: {
-            gte: getParam('minPurchacePrice'),
-            lte: getParam('maxPurchacePrice'),
-            not: sellType.some((s) => s === 'comprar') ? null : undefined
-          },
-          rentValue: {
-            gte: getParam('minRentPrice'),
-            lte: getParam('maxRentPrice'),
-            not: sellType.some((s) => s === 'alugar') ? null : undefined
-          }
-        }
-      },
-      { baseURL: import.meta.env.VITE_BACKEND_URL }
-    )
+    const params: FindRealState = {
+      city: getParam('city') as string,
+      district: getParam('district') as string,
+      minArea: getParam('minArea') as number,
+      maxArea: getParam('maxArea') as number,
+      bedroomNumber: getParam('numberOfBedroom') as number,
+      bathroomNumber: getParam('numberOfBathroom') as number,
+      minPValue: getParam('minPurchacePrice') as number,
+      maxPValue: getParam('maxPurchacePrice') as number,
+      notPValue: sellType.some((s) => s === 'comprar') ? null : undefined,
+      minRValue: getParam('minRentPrice') as number,
+      maxRValue: getParam('maxRentPrice') as number,
+      notRValue: sellType.some((s) => s === 'alugar') ? null : undefined
+    }
+
+    const { data } = await axios.get<House[]>('real-state', {
+      baseURL: import.meta.env.VITE_BACKEND_URL,
+      params
+    })
     setHouses(data)
   }
   const callbackGetHouses = useCallback(getHouses, [searchParams])
@@ -117,13 +104,22 @@ const RealStates = () => {
           />
         </Sidebar>
       </div>
-      <DataView
-        value={houses}
-        itemTemplate={HouseCard}
-        layout='grid'
-        paginator
-        rows={30}
-      />
+      {houses ? (
+        <DataView
+          value={houses}
+          itemTemplate={HouseCard}
+          layout='grid'
+          paginator
+          rows={30}
+        />
+      ) : (
+        <DataView
+          value={Array<React.ReactElement>().fill(<HouseSkeleton />, 0, 6)}
+          itemTemplate={HouseCard}
+          layout='grid'
+          rows={30}
+        />
+      )}
     </section>
   )
 }

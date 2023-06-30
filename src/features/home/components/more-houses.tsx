@@ -8,11 +8,10 @@ export const MoreHouses = () => {
   const [houses, setHouses] = useState<House[]>([])
 
   async function getHouses() {
-    const { data } = await axios.post<House[]>(
-      'real-state',
-      { take: 3, skip: 3 },
-      { baseURL: import.meta.env.VITE_BACKEND_URL }
-    )
+    const { data } = await axios.get<House[]>('real-state', {
+      baseURL: import.meta.env.VITE_BACKEND_URL,
+      params: { take: 3, skip: 3 }
+    })
     setHouses(data)
   }
 

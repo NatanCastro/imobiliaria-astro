@@ -20,8 +20,8 @@ const filterSchema = z.object({
   maxRentPrice: z.coerce.number().gte(0).optional(),
   minArea: z.coerce.number().gte(0).optional(),
   maxArea: z.coerce.number().gte(0).optional(),
-  numberOfBedroom: z.coerce.number().gte(1).optional(),
-  numberOfBathroom: z.coerce.number().gte(1).optional()
+  numberOfBedroom: z.coerce.number().gte(1).default(1),
+  numberOfBathroom: z.coerce.number().gte(1).default(1)
 })
 
 const numberOfBathroomOrBedroomOption: SelectItemOptionsType = [
@@ -141,7 +141,7 @@ export const FilterForm: React.FC<Props> = ({
         />
         <div>
           <h3 className='mb-2 text-center text-xl'>valor de venda</h3>
-          <div className='flex gap-5'>
+          <div className='flex flex-wrap gap-5'>
             <Controller
               defaultValue={Number(searchParams.get('minPurchacePrice'))}
               name='minPurchacePrice'
@@ -309,7 +309,7 @@ export const FilterForm: React.FC<Props> = ({
           </div>
         </div>
         <Controller
-          defaultValue={Number(searchParams.get('numberOfBedroom')) ?? undefined}
+          defaultValue={Number(searchParams.get('numberOfBedroom')) || 1}
           name='numberOfBedroom'
           control={control}
           render={({ field: f }) => (
@@ -327,7 +327,7 @@ export const FilterForm: React.FC<Props> = ({
           )}
         />
         <Controller
-          defaultValue={Number(searchParams.get('numberOfBathroom')) ?? undefined}
+          defaultValue={Number(searchParams.get('numberOfBathroom')) || 1}
           name='numberOfBathroom'
           control={control}
           render={({ field: f }) => (

@@ -25,10 +25,10 @@ export const RealState = () => {
     return <img className='block w-full' src={image} alt='' loading='lazy' />
   }
 
-  if (!house) return 'loading'
+  if (!house) return <h1>loading...</h1>
 
   return (
-    <div className='mx-auto mt-8 grid max-w-6xl grid-cols-6 max-lg:px-2'>
+    <div className='mx-auto my-16 grid max-w-6xl grid-cols-6 max-lg:px-2'>
       <div className='col-span-4'>
         <Galleria
           value={images}
@@ -38,28 +38,27 @@ export const RealState = () => {
           showItemNavigators
           showItemNavigatorsOnHover
         />
-        <h1 className='my-4 text-5xl'>{house.name}</h1>
-        <div className='my-2 flex items-center gap-x-4'>
-          <div className='flex items-center'>
+        <h1 className='mb-2 mt-8 text-5xl'>{house.name}</h1>
+        <p className='text-gray-800'>
+          {house.street}, {house.district}, Votuporanga, SP
+        </p>
+        <div className='my-6 flex items-center gap-x-4'>
+          <div className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'>
             <SquareFoot />
+            &nbsp;&nbsp;
             <span>
-              &nbsp;
               {house.area}m<sup>2</sup>
             </span>
           </div>
-          <div className='flex items-center'>
+          <div className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'>
             <Bed />
-            <span>
-              &nbsp;
-              {house.bedroomNumber}
-            </span>
+            &nbsp;&nbsp;
+            <span>{house.bedroomNumber}</span>
           </div>
-          <div className='flex items-center'>
+          <div className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'>
             <Bathtub />
-            <span>
-              &nbsp;
-              {house.bathroomNumber}
-            </span>
+            &nbsp;&nbsp;
+            <span>{house.bathroomNumber}</span>
           </div>
         </div>
         <p className='leading-7'>

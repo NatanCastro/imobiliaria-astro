@@ -1,5 +1,5 @@
 import type { House } from './house-card.type'
-import { SquareFoot, Bed, Bathtub } from '@mui/icons-material'
+import { SquareFoot, Bed, Bathtub, DirectionsCarFilled } from '@mui/icons-material'
 import { Galleria } from 'primereact/galleria'
 import { Link } from 'react-router-dom'
 
@@ -17,7 +17,8 @@ export const HouseCard = ({
   bedroomNumber,
   area,
   bathroomNumber,
-  images
+  images,
+  parkingSpace
 }: House) => {
   images = ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']
   return (
@@ -57,6 +58,13 @@ export const HouseCard = ({
             <span>
               &nbsp;
               {bathroomNumber}
+            </span>
+          </div>
+          <div className='flex items-center'>
+            <DirectionsCarFilled />
+            <span>
+              &nbsp;
+              {parkingSpace}
             </span>
           </div>
         </div>

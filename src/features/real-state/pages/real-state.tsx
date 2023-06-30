@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { House } from '../../components/house-card.type'
 import { Galleria } from 'primereact/galleria'
-import { Bathtub, Bed, SquareFoot } from '@mui/icons-material'
+import { Tooltip } from 'primereact/tooltip'
+import { Bathtub, Bed, SquareFoot, DirectionsCarFilled } from '@mui/icons-material'
 
 export const RealState = () => {
   const [house, setHouse] = useState<House>()
@@ -28,8 +29,8 @@ export const RealState = () => {
   if (!house) return <h1>loading...</h1>
 
   return (
-    <div className='mx-auto my-16 grid max-w-6xl grid-cols-6 max-lg:px-2'>
-      <div className='col-span-4'>
+    <section className='mx-auto my-16 flex max-w-6xl flex-col gap-x-6 gap-y-4 px-4 max-lg:px-2 lg:grid lg:grid-cols-6'>
+      <div className='lg:col-span-4'>
         <Galleria
           value={images}
           item={imageTemplate}
@@ -42,37 +43,87 @@ export const RealState = () => {
         <p className='text-gray-800'>
           {house.street}, {house.district}, Votuporanga, SP
         </p>
-        <div className='my-6 flex items-center gap-x-4'>
-          <div className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'>
+        <div className='my-6 flex flex-wrap items-center gap-x-4 gap-y-2'>
+          <Tooltip target='#mq' position='bottom' />
+          <div
+            id='mq'
+            className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'
+            data-pr-tooltip={`${house.area} metros quadrados`}>
             <SquareFoot />
             &nbsp;&nbsp;
             <span>
               {house.area}m<sup>2</sup>
             </span>
           </div>
-          <div className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'>
+          <Tooltip target='#quartos' position='bottom' />
+          <div
+            id='quartos'
+            className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'
+            data-pr-tooltip={`${house.bedroomNumber} quartos`}>
             <Bed />
             &nbsp;&nbsp;
             <span>{house.bedroomNumber}</span>
           </div>
-          <div className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'>
+          <Tooltip target='#banheiros' position='bottom' />
+          <div
+            id='banheiros'
+            className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'
+            data-pr-tooltip={`${house.bathroomNumber} banheiros`}>
             <Bathtub />
             &nbsp;&nbsp;
             <span>{house.bathroomNumber}</span>
           </div>
+          <Tooltip target='#garagem' position='bottom' />
+          <div
+            id='garagem'
+            className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'
+            data-pr-tooltip={`${house.parkingSpace} vagas de garagem`}>
+            <DirectionsCarFilled />
+            &nbsp;&nbsp;
+            <span>{house.parkingSpace}</span>
+          </div>
         </div>
-        <p className='leading-7'>
-          {house.description} Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Assumenda libero eos delectus provident nulla sapiente totam, alias consectetur
-          ullam velit explicabo autem nobis dolore nemo, error sunt aut ab accusamus.
-          Deserunt iste minus est dolorem velit nihil sint hic delectus nesciunt?
-          Doloribus a aliquid saepe explicabo obcaecati perspiciatis adipisci maxime
-          quasi, illo beatae, ea tempora voluptatum dolorum nostrum eveniet hic? Tempore
-          nam hic expedita voluptatum voluptatibus consectetur unde quibusdam. Saepe at,
-          omnis rerum maiores amet voluptatibus aliquid, doloremque fugit unde velit eum
-          quas aut error quaerat dolores corrupti aspernatur quibusdam.
-        </p>
+        <div>
+          <h2 className='mb-4 text-2xl'>descrição</h2>
+          <p className='leading-7'>
+            {house.description} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Assumenda libero eos delectus provident nulla sapiente totam, alias
+            consectetur ullam velit explicabo autem nobis dolore nemo, error sunt aut ab
+            accusamus. Deserunt iste minus est dolorem velit nihil sint hic delectus
+            nesciunt? Doloribus a aliquid saepe explicabo obcaecati perspiciatis adipisci
+            maxime quasi, illo beatae, ea tempora voluptatum dolorum nostrum eveniet hic?
+            Tempore nam hic expedita voluptatum voluptatibus consectetur unde quibusdam.
+            Saepe at, omnis rerum maiores amet voluptatibus aliquid, doloremque fugit unde
+            velit eum quas aut error quaerat dolores corrupti aspernatur quibusdam.
+          </p>
+        </div>
       </div>
-    </div>
+      <div className='flex max-w-lg flex-wrap gap-x-8 gap-y-4 lg:col-span-2 lg:flex-col lg:text-lg'>
+        {house.purchaseValue && (
+          <div className='flex w-fit items-center justify-between overflow-hidden rounded-full'>
+            <span className='rounded-l-full border-2 border-dark-blue bg-dark-blue p-2 text-anti-flash-white'>
+              valor de compra
+            </span>
+            <span className='flex-grow rounded-r-full border-2 border-dark-blue p-2'>
+              {Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(
+                house.purchaseValue
+              )}
+            </span>
+          </div>
+        )}
+        {house.rentValue && (
+          <div className='flex w-fit items-center justify-between overflow-hidden rounded-full'>
+            <span className='rounded-l-full border-2 border-dark-blue bg-dark-blue p-2 text-anti-flash-white'>
+              valor do aluguel
+            </span>
+            <span className='justify-center-center flex flex-grow rounded-r-full border-2 border-dark-blue p-2'>
+              {Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(
+                house.rentValue
+              )}
+            </span>
+          </div>
+        )}
+      </div>
+    </section>
   )
 }

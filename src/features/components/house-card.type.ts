@@ -8,6 +8,7 @@ export type House = {
   description: string
   bedroomNumber: number
   bathroomNumber: number
+  parkingSpace: number
   area: number
   rentValue?: number
   purchaseValue?: number

@@ -6,6 +6,17 @@ body {
   font-family: var(--font-family);
 }
 
+.p-galleria-item-nav.p-link {
+  @apply rounded-full text-dark-blue;
+}
+.p-galleria .p-galleria-item-nav:not(.p-disabled):hover {
+  @apply bg-dark-blue/20 text-dark-blue;
+}
+
+.p-galleria.p-galleria-indicator-onitem .p-galleria-indicators {
+  @apply bg-black/30;
+}
+
 .p-button {
   @appply transition-colors;
 }

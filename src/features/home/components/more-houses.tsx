@@ -1,25 +1,16 @@
-import { useEffect, useState } from 'react'
 import { HouseCard } from '../../components/house-card'
-import { House } from '../../components/house-card.type'
 import { NavLink } from 'react-router-dom'
-import axios from 'axios'
-import { FindRealState } from '../../../types/find-real-state.params'
+import type { FindRealState } from '../../../types/find-real-state.params'
+import { useQuery } from '@tanstack/react-query'
+import { getHouses } from '../../../utils/get-houses'
 
 export const MoreHouses = () => {
-  const [houses, setHouses] = useState<House[]>([])
+  const params: FindRealState = { take: 3, skip: 3 }
 
-  async function getHouses() {
-    const params: FindRealState = { take: 3, skip: 3 }
-    const { data } = await axios.get<House[]>('real-state', {
-      baseURL: import.meta.env.VITE_BACKEND_URL,
-      params
-    })
-    setHouses(data)
-  }
-
-  useEffect(() => {
-    getHouses()
-  }, [])
+  const { data } = useQuery({
+    queryKey: ['houses', params],
+    queryFn: () => getHouses(params)
+  })
 
   return (
     <div className='mx-auto my-24 max-w-5xl px-4'>
@@ -32,7 +23,7 @@ export const MoreHouses = () => {
         </NavLink>
       </div>
       <div className='mx-auto flex flex-wrap justify-center gap-8'>
-        {houses.map((house) => {
+        {data?.map((house) => {
           return <HouseCard key={house.id} {...house} />
         })}
       </div>

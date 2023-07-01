@@ -1,25 +1,18 @@
-import { useEffect, useState } from 'react'
 import { HouseCard } from '../../components/house-card'
-import { House } from '../../components/house-card.type'
 import { NavLink } from 'react-router-dom'
-import axios from 'axios'
-import { FindRealState } from '../../../types/find-real-state.params'
+import type { FindRealState } from '../../../types/find-real-state.params'
+import { useQuery } from '@tanstack/react-query'
+import { getHouses } from '../../../utils/get-houses'
 
 export const FeaturedHouses = () => {
-  const [houses, setHouses] = useState<House[]>([])
+  const params: FindRealState = { take: 3 }
+  const { data, error, isError, isLoading } = useQuery({
+    queryKey: ['houses', params],
+    queryFn: () => getHouses(params)
+  })
 
-  async function getHouses() {
-    const params: FindRealState = { take: 3 }
-    const { data } = await axios.get<House[]>('real-state', {
-      baseURL: import.meta.env.VITE_BACKEND_URL,
-      params
-    })
-    setHouses(data)
-  }
-
-  useEffect(() => {
-    getHouses()
-  }, [])
+  if (isLoading) return <h1>loading...</h1>
+  if (isError) return <h1>Error: {error as string}</h1>
 
   return (
     <div className='mx-auto my-24 max-w-5xl px-4'>
@@ -31,7 +24,7 @@ export const FeaturedHouses = () => {
       </div>
       <p className='text-md my-8'>Veja os imoveis mais relevantes do momento</p>
       <div className='mx-auto flex flex-wrap justify-center gap-8'>
-        {houses.map((house) => {
+        {data?.map((house) => {
           return <HouseCard key={house.id} {...house} />
         })}
       </div>

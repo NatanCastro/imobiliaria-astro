@@ -3,10 +3,10 @@ import { Header } from '../components/header'
 
 export const Signup = () => {
   return (
-    <div className='grid h-screen'>
+    <div className='flex h-screen flex-col'>
       <Header />
-      <div className='place-self-center'>
-        <SignUp routing='path' path='/login' />
+      <div className='mt-8 self-center'>
+        <SignUp routing='path' path='/signup' />
       </div>
     </div>
   )

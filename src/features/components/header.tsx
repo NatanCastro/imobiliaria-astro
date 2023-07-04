@@ -37,7 +37,7 @@ export const Header = () => {
         <Link
           className='rounded-xl border-[3px] border-dark-blue px-3 py-2 capitalize transition
           hover:bg-dark-blue hover:text-white'
-          to='/'>
+          to='/login'>
           entrar
         </Link>
         <div>

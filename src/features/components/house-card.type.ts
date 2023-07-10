@@ -12,5 +12,5 @@ export type House = {
   area: number
   rentValue?: number
   purchaseValue?: number
-  images: string[]
+  Image: { cloudId: string; url: string }[]
 }

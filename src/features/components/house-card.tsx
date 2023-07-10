@@ -1,11 +1,8 @@
 import type { House } from './house-card.type'
 import { SquareFoot, Bed, Bathtub, DirectionsCarFilled } from '@mui/icons-material'
-import { Galleria } from 'primereact/galleria'
 import { Link } from 'react-router-dom'
-
-const imageTemplate = (image: string) => {
-  return <img className='block w-full' src={image} alt='' loading='lazy' />
-}
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation } from 'swiper/modules'
 
 export const HouseCard = ({
   id,
@@ -17,26 +14,35 @@ export const HouseCard = ({
   bedroomNumber,
   area,
   bathroomNumber,
-  images,
+  Image,
   parkingSpace
 }: House) => {
-  images = ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']
+  const urls =
+    Image.length === 0
+      ? ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']
+      : Image.map((i) => i.url)
   return (
     <div className='max-w-[18rem] overflow-hidden rounded-md bg-gray-200 shadow-md shadow-black/50'>
-      <Galleria
-        value={images}
-        item={imageTemplate}
-        circular
-        showThumbnails={false}
-        showIndicators
-        showIndicatorsOnItem={true}
-        showItemNavigators
-        showItemNavigatorsOnHover
-      />
+      <Swiper
+        modules={[Navigation]}
+        loop
+        slidesPerView={1}
+        height={11 * 16}
+        className='max-h-44'
+        autoplay={{ delay: 1500 }}
+        navigation>
+        {urls.map((url, i) => (
+          <SwiperSlide key={i}>
+            <img src={url} alt='' loading='lazy' />
+          </SwiperSlide>
+        ))}
+      </Swiper>
       <div className='my-2 px-2'>
         <h3 className='mb-4 font-poppins text-xl'>{name}</h3>
         <p className='text-md text-gray-900'>
-          {city} no bairro {district}
+          cidade: {city}
+          <br />
+          bairro: {district}
         </p>
         <div className='my-4 flex items-center gap-x-4'>
           <div className='flex items-center'>

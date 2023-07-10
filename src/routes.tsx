@@ -11,6 +11,7 @@ import { Clerk } from './features/components/clerk'
 const Home = lazy(() => import('./features/home/pages/home'))
 const RealStates = lazy(() => import('./features/real-state/pages/real-states'))
 const NotFound = lazy(() => import('./features/pages/404'))
+const NewRealState = lazy(() => import('./features/real-state/pages/new-real-state'))
 
 const routes = createBrowserRouter([
   {
@@ -33,6 +34,19 @@ const routes = createBrowserRouter([
                 element: <AddSuspense component={<RealStates />} />,
                 index: true,
                 loader: getCities
+              },
+              {
+                element: (
+                  <>
+                    {/* <SignedIn> */}
+                    <AddSuspense component={<NewRealState />} />
+                    {/* </SignedIn> */}
+                    {/* <SignedOut> */}
+                    {/* <RedirectToSignIn /> */}
+                    {/* </SignedOut> */}
+                  </>
+                ),
+                path: 'novo'
               },
               {
                 element: <AddSuspense component={<RealState />} />,

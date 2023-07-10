@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { House } from '../../components/house-card.type'
-import { Galleria } from 'primereact/galleria'
 import { Tooltip } from 'primereact/tooltip'
 import { Bathtub, Bed, SquareFoot, DirectionsCarFilled } from '@mui/icons-material'
 import { useQuery } from '@tanstack/react-query'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation } from 'swiper/modules'
 
 export const RealState = () => {
   const { guid } = useParams()
@@ -24,25 +25,29 @@ export const RealState = () => {
     queryFn: getHouseData
   })
 
-  const images = ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']
-  const imageTemplate = (image: string) => {
-    return <img className='block w-full' src={image} alt='' loading='lazy' />
-  }
-
   if (isLoading) return <h1>Loading...</h1>
   if (isError) return <h1>Error</h1>
 
+  const urls =
+    house.Image.length === 0
+      ? ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']
+      : house.Image.map((i) => i.url)
   return (
     <section className='mx-auto my-16 flex max-w-6xl flex-col gap-x-6 gap-y-4 px-4 max-lg:px-2'>
       <div>
-        <Galleria
-          value={images}
-          item={imageTemplate}
-          circular
-          showThumbnails={false}
-          showItemNavigators
-          showItemNavigatorsOnHover
-        />
+        <Swiper
+          modules={[Navigation]}
+          loop
+          slidesPerView={1}
+          autoplay={{ delay: 1500 }}
+          navigation
+          className='max-h-[40rem]'>
+          {urls.map((url, i) => (
+            <SwiperSlide key={i}>
+              <img src={url} alt='' loading='lazy' />
+            </SwiperSlide>
+          ))}
+        </Swiper>
         <h1 className='mb-2 mt-8 text-5xl'>{house.name}</h1>
         <p className='text-gray-800'>
           {house.street}, {house.district}, Votuporanga, SP

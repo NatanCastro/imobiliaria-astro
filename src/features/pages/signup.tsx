@@ -1,7 +1,7 @@
 import { SignUp } from '@clerk/clerk-react'
 import { Header } from '../components/header'
 
-export const Signup = () => {
+const Signup = () => {
   return (
     <div className='flex h-screen flex-col'>
       <Header />
@@ -11,3 +11,5 @@ export const Signup = () => {
     </div>
   )
 }
+
+export default SignUp

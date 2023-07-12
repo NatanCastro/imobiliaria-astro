@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 
-export const RealState = () => {
+const RealState = () => {
   const { guid } = useParams()
 
   const getHouseData = async () => {
@@ -138,3 +138,5 @@ export const RealState = () => {
     </section>
   )
 }
+
+export default RealState

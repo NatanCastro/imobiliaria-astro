@@ -39,7 +39,13 @@ const schema = z.object({
 type Data = z.infer<typeof schema>
 
 const NewRealState = () => {
-	const { control, handleSubmit, register, getValues } = useForm<Data>({
+	const {
+		control,
+		handleSubmit,
+		register,
+		getValues,
+		formState: { errors }
+	} = useForm<Data>({
 		resolver: zodResolver(schema)
 	})
 	const uploadImages = async (images: File[]) => {
@@ -109,6 +115,13 @@ const NewRealState = () => {
 	const onSubmit = handleSubmit(({ images }) => {
 		uploadImagesMutation.mutate(images)
 	})
+	const GetFormErrorMessage = ({ name }: { name: keyof Data }) => {
+		return !errors[name] ? (
+			<small>&nbsp;</small>
+		) : (
+			<small className='p-error'>{errors[name]?.message}</small>
+		)
+	}
 
 	return (
 		<div className='my-8 flex items-center justify-center'>
@@ -121,6 +134,7 @@ const NewRealState = () => {
 						<div className='flex flex-col'>
 							<label htmlFor={f.name}>Nome</label>
 							<InputText placeholder='imóvel pousada' id={f.name} {...f} />
+							<GetFormErrorMessage name='name' />
 						</div>
 					)}
 				/>
@@ -138,6 +152,7 @@ const NewRealState = () => {
 								{...f}
 								rows={5}
 							/>
+							<GetFormErrorMessage name='description' />
 						</div>
 					)}
 				/>

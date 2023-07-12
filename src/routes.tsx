@@ -2,16 +2,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { lazy } from 'react'
 import { AddSuspense } from './features/components/add-suspense'
 import Layout from './features/components/layout'
-import { RealState } from './features/real-state/pages/real-state'
 import { getCities } from './utils/get-cities'
-import { Login } from './features/pages/login'
-import { Signup } from './features/pages/signup'
 import { Clerk } from './features/components/clerk'
+import { Auth } from './features/components/auth'
 
 const Home = lazy(() => import('./features/home/pages/home'))
 const RealStates = lazy(() => import('./features/real-state/pages/real-states'))
-const NotFound = lazy(() => import('./features/pages/404'))
+const RealState = lazy(() => import('./features/real-state/pages/real-state'))
 const NewRealState = lazy(() => import('./features/real-state/pages/new-real-state'))
+const Login = lazy(() => import('./features/pages/login'))
+const Signup = lazy(() => import('./features/pages/signup'))
+const NotFound = lazy(() => import('./features/pages/404'))
 
 const routes = createBrowserRouter([
   {
@@ -36,17 +37,13 @@ const routes = createBrowserRouter([
                 loader: getCities
               },
               {
-                element: (
-                  <>
-                    {/* <SignedIn> */}
-                    <AddSuspense component={<NewRealState />} />
-                    {/* </SignedIn> */}
-                    {/* <SignedOut> */}
-                    {/* <RedirectToSignIn /> */}
-                    {/* </SignedOut> */}
-                  </>
-                ),
-                path: 'novo'
+                element: <Auth allowedRoles={['admin']} />,
+                children: [
+                  {
+                    element: <AddSuspense component={<NewRealState />} />,
+                    path: 'novo'
+                  }
+                ]
               },
               {
                 element: <AddSuspense component={<RealState />} />,
@@ -57,11 +54,11 @@ const routes = createBrowserRouter([
         ]
       },
       {
-        path: '/login',
+        path: '/login/*',
         element: <AddSuspense component={<Login />} />
       },
       {
-        path: '/signup',
+        path: '/signup/*',
         element: <AddSuspense component={<Signup />} />
       },
       {

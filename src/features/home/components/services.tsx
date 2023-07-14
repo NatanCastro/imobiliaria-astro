@@ -29,7 +29,7 @@ export const Services = () => {
         {services.map(({ icon, title, description }, index) => (
           <div className='max-w-md' key={index}>
             <span className='my-8 text-[40px] text-dark-blue'>{icon}</span>
-            <h1 className='my-4 text-3xl'>{title}</h1>
+            <h1 className='my-4 h-[4.5rem] text-3xl'>{title}</h1>
             <p>{description}</p>
           </div>
         ))}

@@ -7,6 +7,7 @@ export type House = {
   district: string
   description: string
   bedroomNumber: number
+  suiteNumber: number
   bathroomNumber: number
   parkingSpace: number
   area: number

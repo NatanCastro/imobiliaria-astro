@@ -68,10 +68,22 @@ const RealState = () => {
           <div
             id='quartos'
             className='flex items-center rounded-full bg-black/20 px-3 py-2 text-dark-blue'
-            data-pr-tooltip={`${house.bedroomNumber} quartos`}>
+            data-pr-tooltip={`${house.bedroomNumber} ${
+              house.bedroomNumber === 1 ? 'quarto' : 'quartos'
+            }${
+              house.suiteNumber &&
+              ` e ${house.suiteNumber} ${house.suiteNumber === 1 ? 'suite' : 'suites'}`
+            }`}>
             <Bed />
             &nbsp;&nbsp;
-            <span>{house.bedroomNumber}</span>
+            <p>
+              {house.bedroomNumber} {house.bedroomNumber === 1 ? 'quarto' : 'quartos'}{' '}
+              {house.suiteNumber !== 0 && (
+                <>
+                  e {house.suiteNumber} {house.suiteNumber === 1 ? 'suite' : 'suites'}
+                </>
+              )}
+            </p>
           </div>
           <Tooltip target='#banheiros' position='bottom' />
           <div

@@ -15,6 +15,7 @@ const schema = z.object({
   name: z.string().nonempty().min(5),
   description: z.string().nonempty(),
   bedroomNumber: z.number().gte(0),
+  suiteNumber: z.number().gte(0),
   bathroomNumber: z.number().gte(0),
   parkingSpace: z.number().gte(0),
   area: z.number().gte(0),
@@ -82,6 +83,7 @@ const NewRealState = () => {
         street: data.street,
         district: data.district,
         bedroomNumber: data.bedroomNumber,
+        suiteNumber: data.suiteNumber,
         rentValue: data.rentValue,
         purchaseValue: data.purchaseValue,
         images: data.images.map(({ public_id, secure_url }) => ({
@@ -157,7 +159,7 @@ const NewRealState = () => {
           )}
         />
 
-        <div className='flex flex-wrap gap-x-8'>
+        <div className='flex flex-wrap gap-x-8 gap-y-4'>
           <Controller
             defaultValue={0}
             control={control}
@@ -165,6 +167,24 @@ const NewRealState = () => {
             render={({ field: f }) => (
               <div className='flex flex-col'>
                 <label htmlFor={f.name}>Numbero de quartos</label>
+                <InputNumber
+                  id={f.name}
+                  ref={f.ref}
+                  value={f.value}
+                  onBlur={f.onBlur}
+                  onValueChange={(e) => f.onChange(e)}
+                  min={0}
+                />
+              </div>
+            )}
+          />
+          <Controller
+            defaultValue={0}
+            control={control}
+            name='suiteNumber'
+            render={({ field: f }) => (
+              <div className='flex flex-col'>
+                <label htmlFor={f.name}>Numbero de suites</label>
                 <InputNumber
                   id={f.name}
                   ref={f.ref}

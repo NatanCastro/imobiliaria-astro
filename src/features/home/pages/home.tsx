@@ -1,5 +1,5 @@
-import { FeaturedHouses } from '../components/featured-houses'
-import { MoreHouses } from '../components/more-houses'
+import { FeaturedRealStates } from '../components/featured-real-states'
+import { MoreRealStates } from '../components/more-real-states'
 import { SearchArea } from '../components/search-area'
 import { Services } from '../components/services'
 
@@ -8,9 +8,9 @@ const Home = () => {
     <>
       <main className='overflow-hidden'>
         <SearchArea />
-        <FeaturedHouses />
+        <FeaturedRealStates />
         <Services />
-        <MoreHouses />
+        <MoreRealStates />
       </main>
     </>
   )

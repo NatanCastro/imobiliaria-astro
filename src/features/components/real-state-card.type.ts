@@ -1,4 +1,4 @@
-export type House = {
+export type RealState = {
   id: string
   city: string
   name: string
@@ -13,5 +13,7 @@ export type House = {
   area: number
   rentValue?: number
   purchaseValue?: number
+  swimmingpool: boolean
+  condominium: boolean
   Image: { cloudId: string; url: string }[]
 }

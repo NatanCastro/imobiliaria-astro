@@ -10,6 +10,7 @@ const Home = lazy(() => import('./features/home/pages/home'))
 const RealStates = lazy(() => import('./features/real-state/pages/real-states'))
 const RealState = lazy(() => import('./features/real-state/pages/real-state'))
 const NewRealState = lazy(() => import('./features/real-state/pages/new-real-state'))
+const EditRealState = lazy(() => import('./features/real-state/pages/edit-real-state'))
 const Login = lazy(() => import('./features/pages/login'))
 const Signup = lazy(() => import('./features/pages/signup'))
 const NotFound = lazy(() => import('./features/pages/404'))
@@ -44,6 +45,10 @@ const routes = createBrowserRouter([
                     path: 'novo'
                   }
                 ]
+              },
+              {
+                path: ':guid/editar',
+                element: <AddSuspense component={<EditRealState />} />
               },
               {
                 element: <AddSuspense component={<RealState />} />,

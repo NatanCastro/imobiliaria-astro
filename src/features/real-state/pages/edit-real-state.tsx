@@ -1,15 +1,16 @@
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import { RealState } from '../../components/real-state-card.type'
+import { Loading } from '../../components/loading'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from 'primereact/button'
-import { InputNumber } from 'primereact/inputnumber'
+import { z } from 'zod'
 import { InputText } from 'primereact/inputtext'
+import { InputNumber } from 'primereact/inputnumber'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Checkbox } from 'primereact/checkbox'
-import { Controller, useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
-import { RealState } from '../../components/real-state-card.type'
-import { redirect } from 'react-router-dom'
+import { Button } from 'primereact/button'
 
 const schema = z.object({
   name: z.string().nonempty().min(5),
@@ -26,97 +27,47 @@ const schema = z.object({
   rentValue: z.number().gt(0).optional(),
   purchaseValue: z.number().gt(0).optional(),
   hasSwimmingpool: z.boolean().default(false),
-  onCondominium: z.boolean().default(false),
-  images: z
-    .instanceof(FileList)
-    .transform((fl) => Array(...fl))
-    .refine((fa) =>
-      fa.every(
-        (f) => /^image\/*/.test(f.type) && /\.(jpg|jpeg|png|gif|webp)$/.test(f.name)
-      )
-    )
+  onCondominium: z.boolean().default(false)
+  //images: z
+  //  .instanceof(FileList)
+  //  .transform((fl) => Array(...fl))
+  //  .refine((fa) =>
+  //    fa.every(
+  //      (f) => /^image\/*/.test(f.type) && /\.(jpg|jpeg|png|gif|webp)$/.test(f.name)
+  //    )
+  //  )
 })
 
 type Data = z.infer<typeof schema>
 
-const NewRealState = () => {
+const EditRealState = () => {
+  const { guid } = useParams()
+
   const {
     control,
     handleSubmit,
-    register,
-    getValues,
     formState: { errors }
   } = useForm<Data>({
     resolver: zodResolver(schema)
   })
-  const uploadImages = async (images: File[]) => {
-    const fd = new FormData()
-    images.forEach((image) => {
-      fd.append('files', image, image.name)
-    })
 
-    const { data } = await axios.post<{ public_id: string; secure_url: string }[]>(
-      'real-state/upload-images',
-      fd,
-      {
-        baseURL: import.meta.env.VITE_BACKEND_URL
-      }
-    )
+  const getHouseData = async () => {
+    const { data } = await axios.get<RealState>(`real-state/${guid}`, {
+      baseURL: import.meta.env.VITE_BACKEND_URL
+    })
     return data
   }
-  const createRealState = async (
-    data: Omit<Data, 'images'> & { images: { public_id: string; secure_url: string }[] }
-  ) => {
-    console.log(data)
-    const { data: result } = await axios.post<RealState>(
-      'real-state',
-      {
-        name: data.name,
-        city: data.city,
-        description: data.description,
-        parkingSpace: data.parkingSpace,
-        bathroomNumber: data.bathroomNumber,
-        swimmingPool: data.hasSwimmingpool,
-        condominium: data.onCondominium,
-        area: data.area,
-        number: data.houseNumber,
-        street: data.street,
-        district: data.district,
-        bedroomNumber: data.bedroomNumber,
-        suiteNumber: data.suiteNumber,
-        rentValue: data.rentValue,
-        purchaseValue: data.purchaseValue,
-        images: data.images.map(({ public_id, secure_url }) => ({
-          cloudId: public_id,
-          url: secure_url
-        }))
-      },
-      {
-        baseURL: import.meta.env.VITE_BACKEND_URL
-      }
-    )
-    console.log(result)
-    return result
-  }
-
-  const realStateMutation = useMutation({
-    mutationFn: createRealState,
-    onSuccess: (data) => {
-      redirect(`imoveis/${data.id}`)
-    }
-  })
-  const uploadImagesMutation = useMutation({
-    mutationFn: uploadImages,
-    onSuccess: async (uploadedImagesData) => {
-      console.log(uploadedImagesData)
-      const formData = getValues()
-      realStateMutation.mutate({ ...formData, images: uploadedImagesData })
-    }
+  const {
+    data: house,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['houses', guid],
+    queryFn: getHouseData
   })
 
-  const onSubmit = handleSubmit(({ images }) => {
-    uploadImagesMutation.mutate(images)
-  })
+  const onSubmit = handleSubmit((d) => console.log(d))
+
   const GetFormErrorMessage = ({ name }: { name: keyof Data }) => {
     return !errors[name] ? (
       <small>&nbsp;</small>
@@ -125,11 +76,14 @@ const NewRealState = () => {
     )
   }
 
+  if (isLoading) return <Loading />
+  if (isError) return <h1>Não foi possivel retornar os dados do imóvel</h1>
+
   return (
     <div className='my-8 flex items-center justify-center'>
       <form onSubmit={onSubmit} className='mx-8 flex max-w-3xl flex-col gap-4'>
         <Controller
-          defaultValue=''
+          defaultValue={house.name}
           control={control}
           name='name'
           render={({ field: f }) => (
@@ -142,7 +96,7 @@ const NewRealState = () => {
         />
 
         <Controller
-          defaultValue=''
+          defaultValue={house.description}
           control={control}
           name='description'
           render={({ field: f }) => (
@@ -161,7 +115,7 @@ const NewRealState = () => {
 
         <div className='flex flex-wrap gap-x-8 gap-y-4'>
           <Controller
-            defaultValue={0}
+            defaultValue={house.bedroomNumber}
             control={control}
             name='bedroomNumber'
             render={({ field: f }) => (
@@ -179,7 +133,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue={0}
+            defaultValue={house.suiteNumber}
             control={control}
             name='suiteNumber'
             render={({ field: f }) => (
@@ -197,7 +151,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue={0}
+            defaultValue={house.bathroomNumber}
             control={control}
             name='bathroomNumber'
             render={({ field: f }) => (
@@ -215,7 +169,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue={0}
+            defaultValue={house.parkingSpace}
             control={control}
             name='parkingSpace'
             render={({ field: f }) => (
@@ -233,7 +187,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue={0}
+            defaultValue={house.area}
             control={control}
             name='area'
             render={({ field: f }) => (
@@ -255,7 +209,7 @@ const NewRealState = () => {
 
         <div className='flex flex-wrap gap-8'>
           <Controller
-            defaultValue=''
+            defaultValue={house.city}
             control={control}
             name='city'
             render={({ field: f }) => (
@@ -266,7 +220,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue=''
+            defaultValue={house.district}
             control={control}
             name='district'
             render={({ field: f }) => (
@@ -277,7 +231,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue=''
+            defaultValue={house.street}
             control={control}
             name='street'
             render={({ field: f }) => (
@@ -288,7 +242,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue=''
+            defaultValue={house.number}
             control={control}
             name='houseNumber'
             render={({ field: f }) => (
@@ -302,7 +256,7 @@ const NewRealState = () => {
 
         <div className='flex gap-8'>
           <Controller
-            defaultValue={0}
+            defaultValue={house.rentValue}
             control={control}
             name='rentValue'
             render={({ field: f }) => (
@@ -323,7 +277,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue={0}
+            defaultValue={house.purchaseValue}
             control={control}
             name='purchaseValue'
             render={({ field: f }) => (
@@ -347,7 +301,7 @@ const NewRealState = () => {
 
         <div className='flex flex-wrap gap-8'>
           <Controller
-            defaultValue={false}
+            defaultValue={house.swimmingpool}
             control={control}
             name='hasSwimmingpool'
             render={({ field: f }) => (
@@ -363,7 +317,7 @@ const NewRealState = () => {
             )}
           />
           <Controller
-            defaultValue={false}
+            defaultValue={house.condominium}
             control={control}
             name='onCondominium'
             render={({ field: f }) => (
@@ -379,15 +333,10 @@ const NewRealState = () => {
             )}
           />
         </div>
-        <div className='flex flex-col'>
-          <label htmlFor='images'>imagens</label>
-          <input type='file' id='images' multiple {...register('images')} />
-        </div>
 
         <Button type='submit' label='cadastrar' className='self-center lg:self-end' />
       </form>
     </div>
   )
 }
-
-export default NewRealState
+export default EditRealState

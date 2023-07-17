@@ -1,15 +1,15 @@
-import { HouseCard } from '../../components/house-card'
+import { RealStateCard } from '../../components/real-state-card'
 import { NavLink } from 'react-router-dom'
 import type { FindRealState } from '../../../types/find-real-state.params'
 import { useQuery } from '@tanstack/react-query'
-import { getHouses } from '../../../utils/get-houses'
+import { getRealStates } from '../../../utils/get-real-states'
 
-export const MoreHouses = () => {
+export const MoreRealStates = () => {
   const params: FindRealState = { take: 3, skip: 3 }
 
   const { data } = useQuery({
     queryKey: ['houses', params],
-    queryFn: () => getHouses(params)
+    queryFn: () => getRealStates(params)
   })
 
   return (
@@ -24,7 +24,7 @@ export const MoreHouses = () => {
       </div>
       <div className='mx-auto flex flex-wrap justify-center gap-8'>
         {data?.map((house) => {
-          return <HouseCard key={house.id} {...house} />
+          return <RealStateCard key={house.id} {...house} />
         })}
       </div>
     </div>

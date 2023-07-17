@@ -2,13 +2,13 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { FilterForm, filterData } from '../components/filter-form'
 import axios from 'axios'
 import { useState } from 'react'
-import { HouseCard } from '../../components/house-card'
+import { RealStateCard } from '../../components/real-state-card'
 import { DataView } from 'primereact/dataview'
 import { Button } from 'primereact/button'
 import { Sidebar } from 'primereact/sidebar'
 import { FindRealState } from '../../../types/find-real-state.params'
 import { useQuery } from '@tanstack/react-query'
-import { getHouses } from '../../../utils/get-houses'
+import { getRealStates } from '../../../utils/get-real-states'
 import { useUser } from '@clerk/clerk-react'
 
 const getParams = (searchParams: URLSearchParams) => {
@@ -62,7 +62,7 @@ const RealStates = () => {
 
   const { data: houses } = useQuery({
     queryKey: ['houses', params],
-    queryFn: () => getHouses(params)
+    queryFn: () => getRealStates(params)
   })
 
   return (
@@ -102,7 +102,7 @@ const RealStates = () => {
       </div>
       <DataView
         value={houses}
-        itemTemplate={HouseCard}
+        itemTemplate={RealStateCard}
         layout='grid'
         paginator
         rows={30}

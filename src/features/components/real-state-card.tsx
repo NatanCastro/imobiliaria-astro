@@ -1,10 +1,10 @@
-import type { House } from './house-card.type'
+import type { RealState } from './real-state-card.type'
 import { SquareFoot, Bed, Bathtub, DirectionsCarFilled } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 
-export const HouseCard = ({
+export const RealStateCard = ({
   id,
   name,
   district,
@@ -16,7 +16,7 @@ export const HouseCard = ({
   bathroomNumber,
   Image,
   parkingSpace
-}: House) => {
+}: RealState) => {
   const urls =
     Image.length === 0
       ? ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']

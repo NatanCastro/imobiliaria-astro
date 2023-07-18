@@ -166,7 +166,7 @@ const NewRealState = () => {
             name='bedroomNumber'
             render={({ field: f }) => (
               <div className='flex flex-col'>
-                <label htmlFor={f.name}>Numbero de quartos</label>
+                <label htmlFor={f.name}>Número de quartos</label>
                 <InputNumber
                   id={f.name}
                   ref={f.ref}
@@ -184,7 +184,7 @@ const NewRealState = () => {
             name='suiteNumber'
             render={({ field: f }) => (
               <div className='flex flex-col'>
-                <label htmlFor={f.name}>Numbero de suites</label>
+                <label htmlFor={f.name}>Número de suites</label>
                 <InputNumber
                   id={f.name}
                   ref={f.ref}
@@ -202,7 +202,7 @@ const NewRealState = () => {
             name='bathroomNumber'
             render={({ field: f }) => (
               <div className='flex flex-col'>
-                <label htmlFor={f.name}>Numbero de banheiros</label>
+                <label htmlFor={f.name}>Número de banheiros</label>
                 <InputNumber
                   id={f.name}
                   ref={f.ref}
@@ -220,7 +220,7 @@ const NewRealState = () => {
             name='parkingSpace'
             render={({ field: f }) => (
               <div className='flex flex-col'>
-                <label htmlFor={f.name}>Numbero de garagens</label>
+                <label htmlFor={f.name}>Número de garagens</label>
                 <InputNumber
                   id={f.name}
                   ref={f.ref}
@@ -238,7 +238,7 @@ const NewRealState = () => {
             name='area'
             render={({ field: f }) => (
               <div className='flex flex-col'>
-                <label htmlFor={f.name}>Area do imóvel</label>
+                <label htmlFor={f.name}>Área do imóvel</label>
                 <InputNumber
                   id={f.name}
                   ref={f.ref}
@@ -293,7 +293,7 @@ const NewRealState = () => {
             name='houseNumber'
             render={({ field: f }) => (
               <div className='flex flex-col'>
-                <label htmlFor={f.name}>Numero da casa/prédio</label>
+                <label htmlFor={f.name}>Número da casa/prédio</label>
                 <InputText placeholder='1234' id={f.name} {...f} />
               </div>
             )}

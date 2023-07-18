@@ -20,7 +20,7 @@ const RealState = () => {
 
   const { guid } = useParams()
 
-  const getHouseData = async () => {
+  const getRealStateData = async () => {
     const { data } = await axios.get<RealState>(`real-state/${guid}`, {
       baseURL: import.meta.env.VITE_BACKEND_URL
     })
@@ -32,7 +32,7 @@ const RealState = () => {
     isError
   } = useQuery({
     queryKey: ['houses', guid],
-    queryFn: getHouseData
+    queryFn: getRealStateData
   })
 
   const deleteRealStateMutation = useMutation({
@@ -86,7 +86,7 @@ const RealState = () => {
           </Swiper>
           <h1 className='mb-2 mt-8 text-5xl'>{house.name}</h1>
           <p className='text-gray-800'>
-            {house.street}, {house.district}, Votuporanga, SP
+            {house.street} {house.number}, {house.district}, {house.city}, {house.state}
           </p>
           <div className='my-6 flex flex-wrap items-center gap-x-4 gap-y-2'>
             <Tooltip target='#mq' position='bottom' />

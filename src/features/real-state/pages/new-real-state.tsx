@@ -6,10 +6,12 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { Checkbox } from 'primereact/checkbox'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { RealState } from '../../components/real-state-card.type'
 import { redirect } from 'react-router-dom'
+import { Dropdown } from 'primereact/dropdown'
+import { useState } from 'react'
 
 const schema = z.object({
   name: z.string().nonempty().min(5),
@@ -19,6 +21,7 @@ const schema = z.object({
   bathroomNumber: z.number().gte(0),
   parkingSpace: z.number().gte(0),
   area: z.number().gte(0),
+  state: z.string(),
   city: z.string(),
   district: z.string(),
   street: z.string(),
@@ -40,6 +43,7 @@ const schema = z.object({
 type Data = z.infer<typeof schema>
 
 const NewRealState = () => {
+  const [state, setState] = useState<string>()
   const {
     control,
     handleSubmit,
@@ -49,6 +53,28 @@ const NewRealState = () => {
   } = useForm<Data>({
     resolver: zodResolver(schema)
   })
+
+  const { data: states } = useQuery({
+    queryKey: ['states'],
+    queryFn: async () => {
+      const { data } = await axios.get<{ id: string; nome: string; sigla: string }[]>(
+        'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome'
+      )
+      return data.map((s) => s.sigla)
+    }
+  })
+
+  const { data: cities } = useQuery({
+    queryKey: ['states', state, 'cities'],
+    queryFn: async () => {
+      const { data } = await axios.get<{ id: number; nome: string }[]>(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`
+      )
+      return data.map((c) => c.nome)
+    },
+    enabled: Boolean(state)
+  })
+
   const uploadImages = async (images: File[]) => {
     const fd = new FormData()
     images.forEach((image) => {
@@ -72,6 +98,7 @@ const NewRealState = () => {
       'real-state',
       {
         name: data.name,
+        state: data.state,
         city: data.city,
         description: data.description,
         parkingSpace: data.parkingSpace,
@@ -255,13 +282,36 @@ const NewRealState = () => {
 
         <div className='flex flex-wrap gap-8'>
           <Controller
+            defaultValue='selecione o estado'
+            control={control}
+            name='state'
+            render={({ field: f }) => (
+              <div className='flex flex-col'>
+                <label htmlFor={f.name}>Estado</label>
+                <Dropdown
+                  placeholder='estado'
+                  id={f.name}
+                  {...f}
+                  onChange={(e) => setState(e.target.value)}
+                  options={states ?? []}
+                />
+              </div>
+            )}
+          />
+          <Controller
             defaultValue=''
             control={control}
             name='city'
             render={({ field: f }) => (
               <div className='flex flex-col'>
                 <label htmlFor={f.name}>Cidade</label>
-                <InputText placeholder='Votuporanga' id={f.name} {...f} />
+                <Dropdown
+                  placeholder='Cidade'
+                  id={f.name}
+                  {...f}
+                  options={cities ?? []}
+                  disabled={!state}
+                />
               </div>
             )}
           />

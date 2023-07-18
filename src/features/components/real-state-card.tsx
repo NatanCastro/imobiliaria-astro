@@ -40,9 +40,8 @@ export const RealStateCard = ({
       <div className='my-2 px-2'>
         <h3 className='mb-4 font-poppins text-xl'>{name}</h3>
         <p className='text-md text-gray-900'>
-          cidade: {city}
-          <br />
-          bairro: {district}
+          {city}
+          {district}
         </p>
         <div className='my-4 flex items-center gap-x-4'>
           <div className='flex items-center'>

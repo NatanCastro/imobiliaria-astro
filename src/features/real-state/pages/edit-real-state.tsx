@@ -11,7 +11,7 @@ import { InputNumber } from 'primereact/inputnumber'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Checkbox } from 'primereact/checkbox'
 import { Button } from 'primereact/button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dropdown } from 'primereact/dropdown'
 
 const schema = z.object({
@@ -90,6 +90,10 @@ const EditRealState = () => {
     queryKey: ['houses', guid],
     queryFn: getHouseData
   })
+
+  useEffect(() => {
+    setState(house?.state)
+  }, [house])
 
   const onSubmit = handleSubmit((d) => console.log(d))
 
@@ -234,7 +238,7 @@ const EditRealState = () => {
 
         <div className='flex flex-wrap gap-8'>
           <Controller
-            defaultValue='selecione o estado'
+            defaultValue={house.state}
             control={control}
             name='state'
             render={({ field: f }) => (
@@ -244,14 +248,17 @@ const EditRealState = () => {
                   placeholder='estado'
                   id={f.name}
                   {...f}
-                  onChange={(e) => setState(e.target.value)}
+                  onChange={(e) => {
+                    setState(e.target.value)
+                    f.onChange(e)
+                  }}
                   options={states ?? []}
                 />
               </div>
             )}
           />
           <Controller
-            defaultValue=''
+            defaultValue={house.city}
             control={control}
             name='city'
             render={({ field: f }) => (

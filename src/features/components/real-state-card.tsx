@@ -7,7 +7,7 @@ import { Navigation } from 'swiper/modules'
 export const RealStateCard = ({
   id,
   name,
-  district,
+  state,
   city,
   rentValue,
   purchaseValue,
@@ -17,10 +17,7 @@ export const RealStateCard = ({
   Image,
   parkingSpace
 }: RealState) => {
-  const urls =
-    Image.length === 0
-      ? ['/livingRoom.webp', '/livingRoom.webp', '/livingRoom.webp']
-      : Image.map((i) => i.url)
+  const urls = Image.map((i) => i.url)
   return (
     <div className='max-w-[18rem] overflow-hidden rounded-md bg-gray-200 shadow-md shadow-black/50'>
       <Swiper
@@ -40,8 +37,7 @@ export const RealStateCard = ({
       <div className='my-2 px-2'>
         <h3 className='mb-4 font-poppins text-xl'>{name}</h3>
         <p className='text-md text-gray-900'>
-          {city}
-          {district}
+          {city}, {state}
         </p>
         <div className='my-4 flex items-center gap-x-4'>
           <div className='flex items-center'>

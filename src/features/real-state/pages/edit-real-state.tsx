@@ -22,6 +22,7 @@ const schema = z.object({
   bathroomNumber: z.number().gte(0),
   parkingSpace: z.number().gte(0),
   area: z.number().gte(0),
+  state: z.string(),
   city: z.string(),
   district: z.string(),
   street: z.string(),

@@ -9,7 +9,7 @@ import { z } from 'zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { RealState } from '../../components/real-state-card.type'
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Dropdown } from 'primereact/dropdown'
 import { useState } from 'react'
 import { Refresh } from '@mui/icons-material'
@@ -44,6 +44,7 @@ const schema = z.object({
 type Data = z.infer<typeof schema>
 
 const NewRealState = () => {
+  const navigate = useNavigate()
   const [state, setState] = useState<string>()
   const {
     control,
@@ -95,6 +96,7 @@ const NewRealState = () => {
   const createRealState = async (
     data: Omit<Data, 'images'> & { images: { public_id: string; secure_url: string }[] }
   ) => {
+    scroll({ top: 0 })
     const { data: result } = await axios.post<RealState>(
       'real-state',
       {
@@ -104,7 +106,7 @@ const NewRealState = () => {
         description: data.description,
         parkingSpace: data.parkingSpace,
         bathroomNumber: data.bathroomNumber,
-        swimmingPool: data.hasSwimmingpool,
+        swimmingpool: data.hasSwimmingpool,
         condominium: data.onCondominium,
         area: data.area,
         number: data.houseNumber,
@@ -129,10 +131,8 @@ const NewRealState = () => {
   const realStateMutation = useMutation({
     mutationFn: createRealState,
     onSuccess: (data) => {
-      scroll({ top: 0 })
-      console.log(data)
       reset()
-      redirect(`imoveis/${data.id}`)
+      navigate(`/imoveis/${data.id}`)
     }
   })
   const uploadImagesMutation = useMutation({

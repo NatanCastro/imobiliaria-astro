@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { RealState } from '../../components/real-state-card.type'
 import { Loading } from '../../components/loading'
 import { Controller, useForm } from 'react-hook-form'
@@ -11,8 +11,9 @@ import { InputNumber } from 'primereact/inputnumber'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Checkbox } from 'primereact/checkbox'
 import { Button } from 'primereact/button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Dropdown } from 'primereact/dropdown'
+import { Refresh } from '@mui/icons-material'
 
 const schema = z.object({
   name: z.string().nonempty().min(5),
@@ -44,6 +45,8 @@ const schema = z.object({
 type Data = z.infer<typeof schema>
 
 const EditRealState = () => {
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [state, setState] = useState<string>()
   const { guid } = useParams()
 
@@ -91,11 +94,43 @@ const EditRealState = () => {
     queryFn: getHouseData
   })
 
-  useEffect(() => {
-    setState(house?.state)
-  }, [house])
+  const updateRealStateMutation = useMutation({
+    mutationFn: async (d: Data) => {
+      await axios.patch<RealState>(
+        `real-state/${guid}`,
+        {
+          name: d.name,
+          state: d.state,
+          city: d.city,
+          description: d.description,
+          parkingSpace: d.parkingSpace,
+          bathroomNumber: d.bathroomNumber,
+          swimmingpool: d.hasSwimmingpool,
+          condominium: d.onCondominium,
+          area: d.area,
+          number: d.houseNumber,
+          street: d.street,
+          district: d.district,
+          bedroomNumber: d.bedroomNumber,
+          suiteNumber: d.suiteNumber,
+          rentValue: d.rentValue,
+          purchaseValue: d.purchaseValue
+        },
+        {
+          baseURL: import.meta.env.VITE_BACKEND_URL
+        }
+      )
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['imoveis', guid], { exact: true })
+      navigate(`/imoveis/${guid}`)
+    }
+  })
 
-  const onSubmit = handleSubmit((d) => console.log(d))
+  const onSubmit = handleSubmit(async (d) => {
+    scroll({ top: 0 })
+    updateRealStateMutation.mutate(d)
+  })
 
   const GetFormErrorMessage = ({ name }: { name: keyof Data }) => {
     return !errors[name] ? (
@@ -109,289 +144,296 @@ const EditRealState = () => {
   if (isError) return <h1>Não foi possivel retornar os dados do imóvel</h1>
 
   return (
-    <div className='my-8 flex items-center justify-center'>
-      <form onSubmit={onSubmit} className='mx-8 flex max-w-3xl flex-col gap-4'>
-        <Controller
-          defaultValue={house.name}
-          control={control}
-          name='name'
-          render={({ field: f }) => (
-            <div className='flex flex-col'>
-              <label htmlFor={f.name}>Nome</label>
-              <InputText placeholder='imóvel pousada' id={f.name} {...f} />
-              <GetFormErrorMessage name='name' />
-            </div>
-          )}
-        />
-
-        <Controller
-          defaultValue={house.description}
-          control={control}
-          name='description'
-          render={({ field: f }) => (
-            <div className='flex flex-col'>
-              <label htmlFor={f.name}>Descrição do imovel</label>
-              <InputTextarea
-                placeholder='imovel espaçoso...'
-                id={f.name}
-                {...f}
-                rows={5}
-              />
-              <GetFormErrorMessage name='description' />
-            </div>
-          )}
-        />
-
-        <div className='flex flex-wrap gap-x-8 gap-y-4'>
-          <Controller
-            defaultValue={house.bedroomNumber}
-            control={control}
-            name='bedroomNumber'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Número de quartos</label>
-                <InputNumber
-                  id={f.name}
-                  ref={f.ref}
-                  value={f.value}
-                  onBlur={f.onBlur}
-                  onValueChange={(e) => f.onChange(e)}
-                  min={0}
-                />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.suiteNumber}
-            control={control}
-            name='suiteNumber'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Número de suites</label>
-                <InputNumber
-                  id={f.name}
-                  ref={f.ref}
-                  value={f.value}
-                  onBlur={f.onBlur}
-                  onValueChange={(e) => f.onChange(e)}
-                  min={0}
-                />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.bathroomNumber}
-            control={control}
-            name='bathroomNumber'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Número de banheiros</label>
-                <InputNumber
-                  id={f.name}
-                  ref={f.ref}
-                  value={f.value}
-                  onBlur={f.onBlur}
-                  onValueChange={(e) => f.onChange(e)}
-                  min={0}
-                />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.parkingSpace}
-            control={control}
-            name='parkingSpace'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Número de garagens</label>
-                <InputNumber
-                  id={f.name}
-                  ref={f.ref}
-                  value={f.value}
-                  onBlur={f.onBlur}
-                  onValueChange={(e) => f.onChange(e)}
-                  min={0}
-                />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.area}
-            control={control}
-            name='area'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Área do imóvel</label>
-                <InputNumber
-                  id={f.name}
-                  ref={f.ref}
-                  value={f.value}
-                  onBlur={f.onBlur}
-                  onValueChange={(e) => f.onChange(e)}
-                  min={0}
-                  suffix='m²'
-                />
-              </div>
-            )}
-          />
+    <>
+      {updateRealStateMutation.isLoading && (
+        <div className='absolute inset-0 z-[999999] grid place-items-center bg-gray-950/40'>
+          <Refresh className='h-10 animate-spin text-white' />
         </div>
-
-        <div className='flex flex-wrap gap-8'>
+      )}
+      <div className='my-8 flex items-center justify-center'>
+        <form onSubmit={onSubmit} className='mx-8 flex max-w-3xl flex-col gap-4'>
           <Controller
-            defaultValue={house.state}
+            defaultValue={house.name}
             control={control}
-            name='state'
+            name='name'
             render={({ field: f }) => (
               <div className='flex flex-col'>
-                <label htmlFor={f.name}>Estado</label>
-                <Dropdown
-                  placeholder='estado'
+                <label htmlFor={f.name}>Nome</label>
+                <InputText placeholder='imóvel pousada' id={f.name} {...f} />
+                <GetFormErrorMessage name='name' />
+              </div>
+            )}
+          />
+
+          <Controller
+            defaultValue={house.description}
+            control={control}
+            name='description'
+            render={({ field: f }) => (
+              <div className='flex flex-col'>
+                <label htmlFor={f.name}>Descrição do imovel</label>
+                <InputTextarea
+                  placeholder='imovel espaçoso...'
                   id={f.name}
                   {...f}
-                  onChange={(e) => {
-                    setState(e.target.value)
-                    f.onChange(e)
-                  }}
-                  options={states ?? []}
+                  rows={5}
                 />
+                <GetFormErrorMessage name='description' />
               </div>
             )}
           />
-          <Controller
-            defaultValue={house.city}
-            control={control}
-            name='city'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Cidade</label>
-                <Dropdown
-                  placeholder='Cidade'
-                  id={f.name}
-                  {...f}
-                  options={cities ?? []}
-                  disabled={!state}
-                />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.district}
-            control={control}
-            name='district'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Bairro</label>
-                <InputText placeholder='São luiz' id={f.name} {...f} />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.street}
-            control={control}
-            name='street'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Rua</label>
-                <InputText placeholder='São João' id={f.name} {...f} />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.number}
-            control={control}
-            name='houseNumber'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Numero da casa/prédio</label>
-                <InputText placeholder='1234' id={f.name} {...f} />
-              </div>
-            )}
-          />
-        </div>
 
-        <div className='flex gap-8'>
-          <Controller
-            defaultValue={house.rentValue}
-            control={control}
-            name='rentValue'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Valor do aluguel</label>
-                <InputNumber
-                  id={f.name}
-                  ref={f.ref}
-                  value={f.value}
-                  onBlur={f.onBlur}
-                  onValueChange={(e) => f.onChange(e)}
-                  min={0}
-                  maxFractionDigits={2}
-                  currency='BRL'
-                  prefix='R$'
-                />
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.purchaseValue}
-            control={control}
-            name='purchaseValue'
-            render={({ field: f }) => (
-              <div className='flex flex-col'>
-                <label htmlFor={f.name}>Valor de venda</label>
-                <InputNumber
-                  id={f.name}
-                  ref={f.ref}
-                  value={f.value}
-                  onBlur={f.onBlur}
-                  onValueChange={(e) => f.onChange(e)}
-                  min={0}
-                  maxFractionDigits={2}
-                  currency='BRL'
-                  prefix='R$'
-                />
-              </div>
-            )}
-          />
-        </div>
+          <div className='flex flex-wrap gap-x-8 gap-y-4'>
+            <Controller
+              defaultValue={house.bedroomNumber}
+              control={control}
+              name='bedroomNumber'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Número de quartos</label>
+                  <InputNumber
+                    id={f.name}
+                    ref={f.ref}
+                    value={f.value}
+                    onBlur={f.onBlur}
+                    onValueChange={(e) => f.onChange(e)}
+                    min={0}
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.suiteNumber}
+              control={control}
+              name='suiteNumber'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Número de suites</label>
+                  <InputNumber
+                    id={f.name}
+                    ref={f.ref}
+                    value={f.value}
+                    onBlur={f.onBlur}
+                    onValueChange={(e) => f.onChange(e)}
+                    min={0}
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.bathroomNumber}
+              control={control}
+              name='bathroomNumber'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Número de banheiros</label>
+                  <InputNumber
+                    id={f.name}
+                    ref={f.ref}
+                    value={f.value}
+                    onBlur={f.onBlur}
+                    onValueChange={(e) => f.onChange(e)}
+                    min={0}
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.parkingSpace}
+              control={control}
+              name='parkingSpace'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Número de garagens</label>
+                  <InputNumber
+                    id={f.name}
+                    ref={f.ref}
+                    value={f.value}
+                    onBlur={f.onBlur}
+                    onValueChange={(e) => f.onChange(e)}
+                    min={0}
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.area}
+              control={control}
+              name='area'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Área do imóvel</label>
+                  <InputNumber
+                    id={f.name}
+                    ref={f.ref}
+                    value={f.value}
+                    onBlur={f.onBlur}
+                    onValueChange={(e) => f.onChange(e)}
+                    min={0}
+                    suffix='m²'
+                  />
+                </div>
+              )}
+            />
+          </div>
 
-        <div className='flex flex-wrap gap-8'>
-          <Controller
-            defaultValue={house.swimmingpool}
-            control={control}
-            name='hasSwimmingpool'
-            render={({ field: f }) => (
-              <div className='flex items-center justify-center gap-x-2'>
-                <Checkbox
-                  inputId={f.name}
-                  checked={f.value}
-                  inputRef={f.ref}
-                  onChange={(e) => f.onChange(e.checked)}
-                />
-                <label htmlFor={f.name}>Possui piscina</label>
-              </div>
-            )}
-          />
-          <Controller
-            defaultValue={house.condominium}
-            control={control}
-            name='onCondominium'
-            render={({ field: f }) => (
-              <div className='flex items-center justify-center gap-x-2'>
-                <Checkbox
-                  inputId={f.name}
-                  checked={f.value}
-                  inputRef={f.ref}
-                  onChange={(e) => f.onChange(e.checked)}
-                />
-                <label htmlFor={f.name}>É em condominio</label>
-              </div>
-            )}
-          />
-        </div>
+          <div className='flex flex-wrap gap-8'>
+            <Controller
+              defaultValue={house.state}
+              control={control}
+              name='state'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Estado</label>
+                  <Dropdown
+                    placeholder='estado'
+                    id={f.name}
+                    {...f}
+                    onChange={(e) => {
+                      setState(e.target.value)
+                      f.onChange(e)
+                    }}
+                    options={states ?? []}
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.city}
+              control={control}
+              name='city'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Cidade</label>
+                  <Dropdown
+                    placeholder='Cidade'
+                    id={f.name}
+                    {...f}
+                    options={cities ?? []}
+                    disabled={!state}
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.district}
+              control={control}
+              name='district'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Bairro</label>
+                  <InputText placeholder='São luiz' id={f.name} {...f} />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.street}
+              control={control}
+              name='street'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Rua</label>
+                  <InputText placeholder='São João' id={f.name} {...f} />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.number}
+              control={control}
+              name='houseNumber'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Numero da casa/prédio</label>
+                  <InputText placeholder='1234' id={f.name} {...f} />
+                </div>
+              )}
+            />
+          </div>
 
-        <Button type='submit' label='cadastrar' className='self-center lg:self-end' />
-      </form>
-    </div>
+          <div className='flex gap-8'>
+            <Controller
+              defaultValue={house.rentValue}
+              control={control}
+              name='rentValue'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Valor do aluguel</label>
+                  <InputNumber
+                    id={f.name}
+                    ref={f.ref}
+                    value={f.value}
+                    onBlur={f.onBlur}
+                    onValueChange={(e) => f.onChange(e)}
+                    min={0}
+                    maxFractionDigits={2}
+                    currency='BRL'
+                    prefix='R$'
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.purchaseValue}
+              control={control}
+              name='purchaseValue'
+              render={({ field: f }) => (
+                <div className='flex flex-col'>
+                  <label htmlFor={f.name}>Valor de venda</label>
+                  <InputNumber
+                    id={f.name}
+                    ref={f.ref}
+                    value={f.value}
+                    onBlur={f.onBlur}
+                    onValueChange={(e) => f.onChange(e)}
+                    min={0}
+                    maxFractionDigits={2}
+                    currency='BRL'
+                    prefix='R$'
+                  />
+                </div>
+              )}
+            />
+          </div>
+
+          <div className='flex flex-wrap gap-8'>
+            <Controller
+              defaultValue={house.swimmingpool}
+              control={control}
+              name='hasSwimmingpool'
+              render={({ field: f }) => (
+                <div className='flex items-center justify-center gap-x-2'>
+                  <Checkbox
+                    inputId={f.name}
+                    checked={f.value}
+                    inputRef={f.ref}
+                    onChange={(e) => f.onChange(e.checked)}
+                  />
+                  <label htmlFor={f.name}>Possui piscina</label>
+                </div>
+              )}
+            />
+            <Controller
+              defaultValue={house.condominium}
+              control={control}
+              name='onCondominium'
+              render={({ field: f }) => (
+                <div className='flex items-center justify-center gap-x-2'>
+                  <Checkbox
+                    inputId={f.name}
+                    checked={f.value}
+                    inputRef={f.ref}
+                    onChange={(e) => f.onChange(e.checked)}
+                  />
+                  <label htmlFor={f.name}>É em condominio</label>
+                </div>
+              )}
+            />
+          </div>
+
+          <Button type='submit' label='cadastrar' className='self-center lg:self-end' />
+        </form>
+      </div>
+    </>
   )
 }
 export default EditRealState

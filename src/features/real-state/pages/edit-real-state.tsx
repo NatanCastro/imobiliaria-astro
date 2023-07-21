@@ -83,6 +83,7 @@ const EditRealState = () => {
     const { data } = await axios.get<RealState>(`real-state/${guid}`, {
       baseURL: import.meta.env.VITE_BACKEND_URL
     })
+    setState(data.state)
     return data
   }
   const {

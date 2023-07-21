@@ -96,7 +96,6 @@ const NewRealState = () => {
   const createRealState = async (
     data: Omit<Data, 'images'> & { images: { public_id: string; secure_url: string }[] }
   ) => {
-    scroll({ top: 0 })
     const { data: result } = await axios.post<RealState>(
       'real-state',
       {
@@ -138,13 +137,13 @@ const NewRealState = () => {
   const uploadImagesMutation = useMutation({
     mutationFn: uploadImages,
     onSuccess: async (uploadedImagesData) => {
-      console.log(uploadedImagesData)
       const formData = getValues()
       realStateMutation.mutate({ ...formData, images: uploadedImagesData })
     }
   })
 
   const onSubmit = handleSubmit(({ images }) => {
+    scroll({ top: 0 })
     uploadImagesMutation.mutate(images)
   })
   const GetFormErrorMessage = ({ name }: { name: keyof Data }) => {

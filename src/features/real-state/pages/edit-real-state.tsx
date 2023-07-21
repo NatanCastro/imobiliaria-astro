@@ -430,7 +430,7 @@ const EditRealState = () => {
             />
           </div>
 
-          <Button type='submit' label='cadastrar' className='self-center lg:self-end' />
+          <Button type='submit' label='editar' className='self-center lg:self-end' />
         </form>
       </div>
     </>

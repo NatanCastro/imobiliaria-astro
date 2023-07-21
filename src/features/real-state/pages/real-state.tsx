@@ -1,8 +1,14 @@
 import axios from 'axios'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { RealState } from '../../components/real-state-card.type'
 import { Tooltip } from 'primereact/tooltip'
-import { Bathtub, Bed, SquareFoot, DirectionsCarFilled } from '@mui/icons-material'
+import {
+  Bathtub,
+  Bed,
+  SquareFoot,
+  DirectionsCarFilled,
+  Refresh
+} from '@mui/icons-material'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
@@ -17,8 +23,8 @@ const RealState = () => {
   const toast = useRef<Toast>(null)
 
   const { user } = useUser()
-
   const { guid } = useParams()
+  const navigate = useNavigate()
 
   const getRealStateData = async () => {
     const { data } = await axios.get<RealState>(`real-state/${guid}`, {
@@ -37,7 +43,8 @@ const RealState = () => {
 
   const deleteRealStateMutation = useMutation({
     mutationFn: async () => {
-      const { data } = await axios.delete('real-state', {
+      scroll({ top: 0 })
+      const { data } = await axios.delete<RealState>(`real-state/${guid}`, {
         baseURL: import.meta.env.VITE_BACKEND_URL
       })
       return data
@@ -49,6 +56,7 @@ const RealState = () => {
         detail: 'O imóvel foi deletado',
         life: 3000
       })
+      navigate('/imoveis')
     }
   })
 
@@ -67,6 +75,11 @@ const RealState = () => {
   if (isError) return <h1>Error</h1>
   return (
     <>
+      {deleteRealStateMutation.isLoading && (
+        <div className='absolute inset-0 z-[999999] grid place-items-center bg-gray-950/40'>
+          <Refresh className='h-10 animate-spin text-white' />
+        </div>
+      )}
       <Toast ref={toast} />
       <ConfirmDialog />
       <section className='mx-auto my-16 flex max-w-6xl flex-col gap-x-6 gap-y-4 px-4 max-lg:px-2'>

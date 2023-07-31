@@ -11,6 +11,7 @@ const RealStates = lazy(() => import('./features/real-state/pages/real-states'))
 const RealState = lazy(() => import('./features/real-state/pages/real-state'))
 const NewRealState = lazy(() => import('./features/real-state/pages/new-real-state'))
 const EditRealState = lazy(() => import('./features/real-state/pages/edit-real-state'))
+const ChooseRole = lazy(() => import('./features/user/pages/choose-role'))
 const Login = lazy(() => import('./features/pages/login'))
 const Signup = lazy(() => import('./features/pages/signup'))
 const NotFound = lazy(() => import('./features/pages/404'))
@@ -53,6 +54,15 @@ const routes = createBrowserRouter([
               {
                 element: <AddSuspense component={<RealState />} />,
                 path: ':guid'
+              }
+            ]
+          },
+          {
+            path: 'usuario',
+            children: [
+              {
+                element: <AddSuspense component={<ChooseRole />} />,
+                path: 'escolher-cargo'
               }
             ]
           }

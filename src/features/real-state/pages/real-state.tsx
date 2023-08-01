@@ -155,7 +155,7 @@ const RealState = () => {
           </div>
           <div>
             <h2 className='mb-4 text-2xl'>descrição</h2>
-            <p className='leading-7'>{house.description}</p>
+            <pre className='leading-7'>{house.description}</pre>
           </div>
         </div>
         <div className='flex flex-wrap gap-x-4 gap-y-2 text-lg'>

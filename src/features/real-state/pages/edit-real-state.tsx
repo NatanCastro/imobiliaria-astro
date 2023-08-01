@@ -311,7 +311,6 @@ const EditRealState = () => {
                     id={f.name}
                     {...f}
                     options={cities ?? []}
-                    disabled={!state}
                   />
                 </div>
               )}
@@ -431,7 +430,11 @@ const EditRealState = () => {
             />
           </div>
 
-          <Button type='submit' label='editar' className='self-center lg:self-end' />
+          <Button
+            type='submit'
+            label='confirmar edição'
+            className='self-center lg:self-end'
+          />
         </form>
       </div>
     </>

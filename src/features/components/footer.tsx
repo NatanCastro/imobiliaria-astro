@@ -20,7 +20,7 @@ export const Footer = () => {
             <hr className='my-2 w-24' />
             <p className='flex items-center gap-2'>
               <Mail className='text-xl text-gold-700' />
-              <a href='mailto:email@email.com'>mail@email.com</a>
+              <a href='mailto:votuimoveisbr@gmail.com'>votuimoveisbr@gmail.com</a>
             </p>
             <p className='flex items-center gap-2'>
               <Phone className='text-xl text-gold-700' />

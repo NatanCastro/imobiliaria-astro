@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Phone, WhatsApp } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 export const Modal = () => {
   return (
@@ -18,7 +19,9 @@ export const Modal = () => {
           </a>
         </div>
         <div className='flex gap-10'>
-          <a href='https://facebook.com' target='_blank'>
+          <a
+            href='https://www.facebook.com/profile.php?id=100095529362969'
+            target='_blank'>
             <Facebook className='text-2xl text-dark-blue' />
           </a>
           <a href='https://instagram.com' target='_blank'>
@@ -26,7 +29,16 @@ export const Modal = () => {
           </a>
         </div>
       </aside>
-      <div className='col-span-5'></div>
+      <div className='col-span-5 text-xl text-dark-blue'>
+        <ul className='flex flex-col gap-2'>
+          <li>
+            <Link to='/imoveis?sellType=venda'>Veja imoveis a venda</Link>
+          </li>
+          <li>
+            <Link to='/imoveis?sellType=aluguel'>Veja imoveis para alugar</Link>
+          </li>
+        </ul>
+      </div>
     </div>
   )
 }

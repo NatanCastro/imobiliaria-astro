@@ -18,6 +18,7 @@ import { Toast } from 'primereact/toast'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { useRef } from 'react'
 import { Loading } from '../../components/loading'
+import { Helmet } from 'react-helmet'
 
 const RealState = () => {
   const toast = useRef<Toast>(null)
@@ -75,6 +76,9 @@ const RealState = () => {
   if (isError) return <h1>Error</h1>
   return (
     <>
+      <Helmet>
+        <title>Votu Imóveis - imóvel - {house.name}</title>
+      </Helmet>
       {deleteRealStateMutation.isLoading && (
         <div className='absolute inset-0 z-[999999] grid place-items-center bg-gray-950/40'>
           <Refresh className='h-10 animate-spin text-white' />

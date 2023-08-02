@@ -10,6 +10,7 @@ import { FindRealState } from '../../../types/find-real-state.params'
 import { useQuery } from '@tanstack/react-query'
 import { getRealStates } from '../../../utils/get-real-states'
 import { useUser } from '@clerk/clerk-react'
+import { Helmet } from 'react-helmet'
 
 const getParams = (searchParams: URLSearchParams) => {
   return (searchParam: keyof filterData) => {
@@ -66,48 +67,53 @@ const RealStates = () => {
   })
 
   return (
-    <section className='flex flex-col justify-center gap-y-8 overflow-hidden py-16'>
-      <div className='flex flex-col items-start justify-between px-4 py-2 md:flex-row md:items-center lg:justify-evenly'>
-        <h1 className='text-2xl md:text-4xl'>
-          foram encontrados {houses?.length || '0'}{' '}
-          {houses?.length === 1 ? 'imóvel' : 'imóveis'}
-        </h1>
-        <div className='flex gap-4'>
-          {user?.publicMetadata['role'] === 'admin' && (
-            <Button>
-              <Link to='novo'>criar</Link>
-            </Button>
-          )}
-          <Button
-            label='filtros'
-            onClick={() => setOpenSidebarFilter(true)}
-            aria-controls={openSidebarFilter ? 'sidebar' : undefined}
-            aria-expanded={openSidebarFilter}
-            className='self-end'
-          />
+    <>
+      <Helmet>
+        <title>Votu Imóveis - imóveis</title>
+      </Helmet>
+      <section className='flex flex-col justify-center gap-y-8 overflow-hidden py-16'>
+        <div className='flex flex-col items-start justify-between px-4 py-2 md:flex-row md:items-center lg:justify-evenly'>
+          <h1 className='text-2xl md:text-4xl'>
+            foram encontrados {houses?.length || '0'}{' '}
+            {houses?.length === 1 ? 'imóvel' : 'imóveis'}
+          </h1>
+          <div className='flex gap-4'>
+            {user?.publicMetadata['role'] === 'admin' && (
+              <Button>
+                <Link to='novo'>criar</Link>
+              </Button>
+            )}
+            <Button
+              label='filtros'
+              onClick={() => setOpenSidebarFilter(true)}
+              aria-controls={openSidebarFilter ? 'sidebar' : undefined}
+              aria-expanded={openSidebarFilter}
+              className='self-end'
+            />
+          </div>
+          <Sidebar
+            id='sidebar'
+            visible={openSidebarFilter}
+            onHide={() => setOpenSidebarFilter(false)}
+            position='right'
+            className='w-full md:w-fit'>
+            <FilterForm
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+              setSelectedCity={setSelectedCity}
+              districts={districts}
+            />
+          </Sidebar>
         </div>
-        <Sidebar
-          id='sidebar'
-          visible={openSidebarFilter}
-          onHide={() => setOpenSidebarFilter(false)}
-          position='right'
-          className='w-full md:w-fit'>
-          <FilterForm
-            searchParams={searchParams}
-            setSearchParams={setSearchParams}
-            setSelectedCity={setSelectedCity}
-            districts={districts}
-          />
-        </Sidebar>
-      </div>
-      <DataView
-        value={houses}
-        itemTemplate={RealStateCard}
-        layout='grid'
-        paginator
-        rows={30}
-      />
-    </section>
+        <DataView
+          value={houses}
+          itemTemplate={RealStateCard}
+          layout='grid'
+          paginator
+          rows={30}
+        />
+      </section>
+    </>
   )
 }
 

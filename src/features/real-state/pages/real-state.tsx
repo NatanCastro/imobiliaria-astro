@@ -97,7 +97,7 @@ const RealState = () => {
             className='max-h-[40rem]'>
             {house.Image.map(({ url }, i) => (
               <SwiperSlide key={i}>
-                <img src={url} alt='' loading='lazy' />
+                <img src={url} alt='' loading='lazy' className='h-full' />
               </SwiperSlide>
             ))}
           </Swiper>

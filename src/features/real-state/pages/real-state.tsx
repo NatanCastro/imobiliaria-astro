@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { RealState } from '../../components/real-state-card.type'
 import { Tooltip } from 'primereact/tooltip'
 import {
@@ -9,23 +9,28 @@ import {
   DirectionsCarFilled,
   Refresh
 } from '@mui/icons-material'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import { useUser } from '@clerk/clerk-react'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
-import { useRef } from 'react'
+import { ConfirmDialog } from 'primereact/confirmdialog'
+import { useRef, useState } from 'react'
 import { Loading } from '../../components/loading'
 import { Helmet } from 'react-helmet'
+import { DeleteRealStateButton } from '../components/delete-real-state-button'
+import { ChangeLessorButton } from '../components/change-lessor-button'
 
 const RealState = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const toast = useRef<Toast>(null)
-
   const { user } = useUser()
   const { guid } = useParams()
-  const navigate = useNavigate()
+
+  const changeLoadingState = (state: boolean) => {
+    setIsLoading(state)
+  }
 
   const getRealStateData = async () => {
     const { data } = await axios.get<RealState>(`real-state/${guid}`, {
@@ -35,51 +40,21 @@ const RealState = () => {
   }
   const {
     data: house,
-    isLoading,
+    isLoading: isLoadingData,
     isError
   } = useQuery({
     queryKey: ['houses', guid],
     queryFn: getRealStateData
   })
 
-  const deleteRealStateMutation = useMutation({
-    mutationFn: async () => {
-      scroll({ top: 0 })
-      const { data } = await axios.delete<RealState>(`real-state/${guid}`, {
-        baseURL: import.meta.env.VITE_BACKEND_URL
-      })
-      return data
-    },
-    onSuccess: () => {
-      toast.current?.show({
-        severity: 'info',
-        summary: 'Confirmado',
-        detail: 'O imóvel foi deletado',
-        life: 3000
-      })
-      navigate('/imoveis')
-    }
-  })
-
-  const confirmDelete = () => {
-    confirmDialog({
-      message: 'Deseja mesmo apagar esse imóvel?',
-      header: 'Apagar imóvel',
-      icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'sim',
-      rejectLabel: 'não',
-      accept: deleteRealStateMutation.mutate
-    })
-  }
-
-  if (isLoading) return <Loading />
+  if (isLoadingData) return <Loading />
   if (isError) return <h1>Error</h1>
   return (
     <>
       <Helmet>
         <title>Votu Imóveis - imóvel - {house.name}</title>
       </Helmet>
-      {deleteRealStateMutation.isLoading && (
+      {isLoading && (
         <div className='absolute inset-0 z-[999999] grid place-items-center bg-gray-950/40'>
           <Refresh className='h-10 animate-spin text-white' />
         </div>
@@ -190,14 +165,27 @@ const RealState = () => {
             </div>
           )}
         </div>
-        {user?.publicMetadata['role'] === 'admin' && (
-          <div className='flex gap-6'>
-            <Link to='editar'>
-              <Button>editar</Button>
+        <div className='flex gap-6'>
+          {user?.publicMetadata['role'] === 'admin' && (
+            <>
+              <Link to='editar'>
+                <Button>editar</Button>
+              </Link>
+              <DeleteRealStateButton
+                guid={guid as string}
+                toastRef={toast}
+                isLoadingFn={changeLoadingState}
+              />
+              <ChangeLessorButton />
+            </>
+          )}
+
+          {house.lessorId === user?.id && house.rentUrl && (
+            <Link to={house.rentUrl || ''}>
+              <Button>alugar</Button>
             </Link>
-            <Button onClick={confirmDelete}>apagar</Button>
-          </div>
-        )}
+          )}
+        </div>
       </section>
     </>
   )

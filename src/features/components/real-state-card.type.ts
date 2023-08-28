@@ -16,5 +16,7 @@ export type RealState = {
   purchaseValue?: number
   swimmingpool: boolean
   condominium: boolean
+  rentUrl?: string
+  lessorId?: string
   Image: { cloudId: string; url: string }[]
 }

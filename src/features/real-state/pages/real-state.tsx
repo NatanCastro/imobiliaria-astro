@@ -176,12 +176,13 @@ const RealState = () => {
                 toastRef={toast}
                 isLoadingFn={changeLoadingState}
               />
-              <ChangeLessorButton />
+
+              {/*ChangeLessorButton />*/}
             </>
           )}
 
           {house.lessorId === user?.id && house.rentUrl && (
-            <Link to={house.rentUrl || ''}>
+            <Link to={house.rentUrl || ''} target='_blank'>
               <Button>alugar</Button>
             </Link>
           )}

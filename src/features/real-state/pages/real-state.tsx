@@ -177,7 +177,7 @@ const RealState = () => {
                 isLoadingFn={changeLoadingState}
               />
 
-              {/*ChangeLessorButton />*/}
+              <ChangeLessorButton />
             </>
           )}
 

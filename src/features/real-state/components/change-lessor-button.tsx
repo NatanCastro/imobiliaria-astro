@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { z } from 'zod'
+import { UserResource } from '@clerk/types'
 
 const schema = z.object({
   lessor: z.string().nonempty()
@@ -19,6 +20,22 @@ export const ChangeLessorButton = () => {
   const { guid } = useParams()
   const { control, handleSubmit } = useForm<Data>({
     resolver: zodResolver(schema)
+  })
+
+  const { data: users } = useQuery({
+    queryKey: ['users', guid],
+    queryFn: async () => {
+      const { data } = await axios.get<UserResource[]>('user', {
+        baseURL: import.meta.env.VITE_BACKEND_URL,
+        params: {
+          id: guid
+        }
+      })
+      return data.map((user) => ({
+        id: user.id,
+        name: user.fullName ?? user.username
+      }))
+    }
   })
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -37,9 +54,10 @@ export const ChangeLessorButton = () => {
     <>
       <Button onClick={() => setIsOpen((prev) => !prev)}>selecionar inquilino</Button>
       <Dialog
-        header='mudar locador'
+        header='mudar locador '
         onHide={() => setIsOpen((prev) => !prev)}
-        visible={isOpen}>
+        visible={isOpen}
+        className='p-4'>
         <form onSubmit={onSubmit}>
           <Controller
             control={control}
@@ -52,6 +70,8 @@ export const ChangeLessorButton = () => {
                   value={f.value}
                   focusInputRef={f.ref}
                   onChange={(e) => f.onChange(e.value)}
+                  options={users}
+                  optionLabel='name'
                 />
               </div>
             )}

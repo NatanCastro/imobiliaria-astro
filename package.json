@@ -1,5 +1,9 @@
 {
   "name": "imobiliaria",
+  "author": {
+    "name": "Natan",
+    "email": "castro.natan@outlook.com"
+  },
   "private": true,
   "version": "0.0.0",
   "type": "module",

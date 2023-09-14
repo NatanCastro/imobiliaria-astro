@@ -12,9 +12,9 @@ import { getRealStates } from '../../../utils/get-real-states'
 import { useUser } from '@clerk/clerk-react'
 import { Helmet } from 'react-helmet'
 
-const getParams = (searchParams: URLSearchParams) => {
-  return (searchParam: keyof filterData) => {
-    let value: string | number | null = searchParams.get(searchParam)
+function getParams<T>(searchParams: URLSearchParams) {
+  return (searchParam: keyof T) => {
+    let value: string | number | null = searchParams.get(searchParam as string)
     if (!isNaN(Number(value))) {
       value = Number(value)
       return value !== 0 ? value : undefined
@@ -44,7 +44,7 @@ const RealStates = () => {
     enabled: selectedCity !== ''
   })
 
-  const getParam = getParams(searchParams)
+  const getParam = getParams<filterData>(searchParams)
   const sellType = getParam('sellType') ? (getParam('sellType') as string).split(',') : []
   const params: FindRealState = {
     city: getParam('city') as string,

@@ -7,12 +7,11 @@ import { Checkbox } from 'primereact/checkbox'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import { RealState } from '../../components/real-state-card.type'
 import { useNavigate } from 'react-router-dom'
 import { Dropdown } from 'primereact/dropdown'
 import { useState } from 'react'
 import { Refresh } from '@mui/icons-material'
+import { realStateService } from '@/services/real-state.service'
 
 const schema = z.object({
   name: z.string().nonempty().min(5),
@@ -59,86 +58,45 @@ const NewRealState = () => {
 
   const { data: states } = useQuery({
     queryKey: ['states'],
-    queryFn: async () => {
-      const { data } = await axios.get<{ id: string; nome: string; sigla: string }[]>(
-        'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome'
-      )
-      return data.map((s) => s.sigla)
-    }
+    queryFn: realStateService.getStates
   })
 
   const { data: cities } = useQuery({
     queryKey: ['states', state, 'cities'],
-    queryFn: async () => {
-      const { data } = await axios.get<{ id: number; nome: string }[]>(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`
-      )
-      return data.map((c) => c.nome)
-    },
+    queryFn: () => realStateService.getCitiesByState(state as string),
     enabled: Boolean(state)
   })
 
-  const uploadImages = async (images: File[]) => {
-    const fd = new FormData()
-    images.forEach((image) => {
-      fd.append('files', image, image.name)
-    })
-
-    const { data } = await axios.post<{ public_id: string; secure_url: string }[]>(
-      'real-state/upload-images',
-      fd,
-      {
-        baseURL: import.meta.env.VITE_BACKEND_URL
-      }
-    )
-    return data
-  }
-  const createRealState = async (
-    data: Omit<Data, 'images'> & { images: { public_id: string; secure_url: string }[] }
-  ) => {
-    const { data: result } = await axios.post<RealState>(
-      'real-state',
-      {
-        name: data.name,
-        state: data.state,
-        city: data.city,
-        description: data.description,
-        parkingSpace: data.parkingSpace,
-        bathroomNumber: data.bathroomNumber,
-        swimmingpool: data.hasSwimmingpool,
-        condominium: data.onCondominium,
-        area: data.area,
-        number: data.houseNumber,
-        street: data.street,
-        district: data.district,
-        bedroomNumber: data.bedroomNumber,
-        suiteNumber: data.suiteNumber,
-        rentValue: data.rentValue,
-        purchaseValue: data.purchaseValue,
-        images: data.images.map(({ public_id, secure_url }) => ({
-          cloudId: public_id,
-          url: secure_url
-        }))
-      },
-      {
-        baseURL: import.meta.env.VITE_BACKEND_URL
-      }
-    )
-    return result
-  }
-
   const realStateMutation = useMutation({
-    mutationFn: createRealState,
+    mutationFn: realStateService.createRealstate,
     onSuccess: (data) => {
       reset()
       navigate(`/imoveis/${data.id}`)
     }
   })
   const uploadImagesMutation = useMutation({
-    mutationFn: uploadImages,
+    mutationFn: realStateService.uploadImages,
     onSuccess: async (uploadedImagesData) => {
-      const formData = getValues()
-      realStateMutation.mutate({ ...formData, images: uploadedImagesData })
+      const fd = getValues()
+      realStateMutation.mutate({
+        name: fd.name,
+        houseNumber: fd.houseNumber,
+        images: uploadedImagesData,
+        area: fd.area,
+        city: fd.city,
+        state: fd.state,
+        street: fd.street,
+        district: fd.district,
+        rentValue: fd.rentValue,
+        description: fd.description,
+        suiteNumber: fd.suiteNumber,
+        parkingSpace: fd.parkingSpace,
+        bedroomNumber: fd.bedroomNumber,
+        onCondominium: fd.onCondominium,
+        purchaseValue: fd.purchaseValue,
+        bathroomNumber: fd.bathroomNumber,
+        hasSwimmingpool: fd.hasSwimmingpool
+      })
     }
   })
 

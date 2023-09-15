@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom'
 import { Dropdown } from 'primereact/dropdown'
 import { useState } from 'react'
 import { Refresh } from '@mui/icons-material'
-import { realStateService } from '@/services/real-state.service'
+import { realStateService } from '../../../services/real-state.service'
+import { ImageSelect } from '../components/image-select'
 
 const schema = z.object({
   name: z.string().nonempty().min(5),
@@ -31,8 +32,7 @@ const schema = z.object({
   hasSwimmingpool: z.boolean().default(false),
   onCondominium: z.boolean().default(false),
   images: z
-    .instanceof(FileList)
-    .transform((fl) => Array(...fl))
+    .array(z.instanceof(File))
     .refine((fa) =>
       fa.every(
         (f) => /^image\/*/.test(f.type) && /\.(jpg|jpeg|png|gif|webp)$/.test(f.name)
@@ -48,7 +48,6 @@ const NewRealState = () => {
   const {
     control,
     handleSubmit,
-    register,
     getValues,
     reset,
     formState: { errors }
@@ -399,7 +398,18 @@ const NewRealState = () => {
           </div>
           <div className='flex flex-col'>
             <label htmlFor='images'>imagens</label>
-            <input type='file' id='images' multiple {...register('images')} />
+            <Controller
+              name='images'
+              control={control}
+              render={({ field: f }) => (
+                <ImageSelect
+                  inputId={f.name}
+                  name={f.name}
+                  inputRef={f.ref}
+                  onChange={(files) => f.onChange(files)}
+                />
+              )}
+            />
           </div>
 
           <Button type='submit' label='cadastrar' className='self-center lg:self-end' />

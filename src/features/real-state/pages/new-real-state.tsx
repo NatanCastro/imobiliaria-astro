@@ -68,9 +68,9 @@ const NewRealState = () => {
 
   const realStateMutation = useMutation({
     mutationFn: realStateService.createRealstate,
-    onSuccess: (data) => {
+    onSuccess: () => {
       reset()
-      navigate(`/imoveis/${data.id}`)
+      navigate('/imoveis')
     }
   })
   const uploadImagesMutation = useMutation({

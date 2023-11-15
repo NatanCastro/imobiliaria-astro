@@ -31,7 +31,7 @@ export const ChangeLessorButton = () => {
       console.log(data)
       return data.map((user) => ({
         id: user.id,
-        name: user.fullName ?? user.username ?? user.id
+        name: user.username ?? user.emailAddresses[0].emailAddress ?? user.id
       }))
     }
   })

@@ -23,17 +23,15 @@ export const ChangeLessorButton = () => {
   })
 
   const { data: users } = useQuery({
-    queryKey: ['users', guid],
+    queryKey: ['users'],
     queryFn: async () => {
       const { data } = await axios.get<UserResource[]>('user', {
-        baseURL: import.meta.env.VITE_BACKEND_URL,
-        params: {
-          id: guid
-        }
+        baseURL: import.meta.env.VITE_BACKEND_URL
       })
+      console.log(data)
       return data.map((user) => ({
         id: user.id,
-        name: user.fullName ?? user.username
+        name: user.fullName ?? user.username ?? user.id
       }))
     }
   })
